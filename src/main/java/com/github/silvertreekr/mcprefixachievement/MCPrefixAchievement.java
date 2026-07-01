@@ -13,7 +13,10 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        new PrefixCommand(this);
 
+
+        // Initialize the DefaultConfig
         saveDefaultConfig();
         reloadConfig();
         try {
