@@ -1,0 +1,5 @@
+name: MCPrefixAchievement
+version: '1.0-SNAPSHOT'
+main: com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement
+api-version: '1.21'
+authors: [ SilverTreeKR ]
