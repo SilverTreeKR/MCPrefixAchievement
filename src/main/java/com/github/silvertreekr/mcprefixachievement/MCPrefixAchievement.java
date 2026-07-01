@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement;
 import com.github.silvertreekr.mcprefixachievement.customconfig.PrefixConfigLoader;
+import com.github.silvertreekr.mcprefixachievement.customconfig.PrefixConfigManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import com.github.silvertreekr.mcprefixachievement.database.MysqlDatabase;
@@ -22,6 +23,11 @@ public final class MCPrefixAchievement extends JavaPlugin {
         return prefixConfigLoader;
     }
 
+    private static PrefixConfigManager prefixConfigManager = new PrefixConfigManager();
+    public static PrefixConfigManager getPrefixConfigManager() {
+        return prefixConfigManager;
+    }
+
     @Override
     public void onEnable() {
         new PrefixCommand(this);
@@ -34,6 +40,9 @@ public final class MCPrefixAchievement extends JavaPlugin {
         // Initialize the PrefixConfigLoader
 
         prefixConfigLoader.loadPrefixConfig();
+
+        // Initialize the PrefixConfigManager
+        prefixConfigManager.readConfig(prefixConfigLoader);
 
         // Initialize the MySQL Database
         try {
