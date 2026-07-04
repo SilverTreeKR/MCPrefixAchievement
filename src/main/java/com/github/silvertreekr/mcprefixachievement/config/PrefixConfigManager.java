@@ -53,9 +53,7 @@ public class PrefixConfigManager {
         return prefixMap.get(id);
     }
 
-    public @NotNull Set<Component> getAllDisplayPrefixes() {
-        return prefixMap.values().stream()
-                .map(Prefix::getDisplayPrefix)
-                .collect(Collectors.toSet());
+    public boolean existsPrefix(int id) {
+        return  prefixMap.containsKey(id);
     }
 }
