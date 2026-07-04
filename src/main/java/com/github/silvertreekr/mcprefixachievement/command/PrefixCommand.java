@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,7 +28,7 @@ public class PrefixCommand extends BukkitCommand {
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>사용 가능한 명령어:");
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/칭호 정보 [칭호명] - 특정 칭호의 정보를 확인합니다.");
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/칭호 목록 [페이지] - 칭호들의 목록을 확인합니다.");
-
+            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/[칭호명] - 특정 칭호의 특수 효과를 부여받습니다. (공백 없이 입력)");
             return true;
         }
 
@@ -50,6 +51,16 @@ public class PrefixCommand extends BukkitCommand {
                         sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>칭호: <prefix>", Placeholder.component("prefix", prefix.getDisplayPrefix()));
                         sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>달성 조건: <description>", Placeholder.component("description", prefix.getDescription()));
                         sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>달성 보상: <reward>", Placeholder.component("reward", prefix.getReward()));
+                        if (!(sender instanceof Player player)) {
+                            return true;
+                        }
+                        sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>");
+
+                        if (MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), prefixId)) {
+                            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>현재 이 칭호를 <bold><green>보유<reset>하고 있습니다.");
+                        } else {
+                            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>현재 이 칭호를 <bold><red>미보유<reset>하고 있습니다.");
+                        }
                     } catch (NumberFormatException e) {
                         sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><red>올바르지 않은 칭호 ID입니다.");
                         return false;
