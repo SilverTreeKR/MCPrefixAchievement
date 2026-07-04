@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement;
 
+import com.github.silvertreekr.mcprefixachievement.command.Debug;
 import com.github.silvertreekr.mcprefixachievement.command.HammerOnCommnad;
 import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
@@ -64,6 +65,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
         // Initialize command
         new PrefixCommand(this);
         new HammerOnCommnad(this);
+        new Debug(this);
 
         // Initialize the MySQL Database
         try {
