@@ -4,6 +4,7 @@ import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsDAO;
+import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.database.MysqlDatabase;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -13,6 +14,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
     private MysqlDatabase mysqlDatabase;
     private PrefixConfigLoader prefixConfigLoader;
     private PrefixConfigManager prefixConfigManager;
+    private UserStatsManager userStatsManager;
 
     public static @NotNull MCPrefixAchievement getInstance() {
         return instance;
@@ -28,6 +30,10 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     public @NotNull PrefixConfigManager getPrefixConfigManager() {
         return prefixConfigManager;
+    }
+
+    public @NotNull UserStatsManager getUserStatsManager() {
+        return userStatsManager;
     }
 
     @Override
@@ -60,6 +66,8 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
         UserStatsDAO userStatsDAO  = new UserStatsDAO(mysqlDatabase);
         userStatsDAO.initialize();
+
+        userStatsManager = new UserStatsManager(userStatsDAO);
 
     }
 
