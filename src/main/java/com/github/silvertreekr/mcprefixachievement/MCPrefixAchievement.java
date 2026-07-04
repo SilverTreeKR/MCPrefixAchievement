@@ -3,6 +3,7 @@ package com.github.silvertreekr.mcprefixachievement;
 import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
+import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixesDAO;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsDAO;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
@@ -15,6 +16,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
     private MysqlDatabase mysqlDatabase;
     private PrefixConfigLoader prefixConfigLoader;
     private PrefixConfigManager prefixConfigManager;
+    private UserPrefixManager userPrefixManager;
     private UserStatsManager userStatsManager;
 
     public static @NotNull MCPrefixAchievement getInstance() {
@@ -31,6 +33,10 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     public @NotNull PrefixConfigManager getPrefixConfigManager() {
         return prefixConfigManager;
+    }
+
+    public @NotNull UserPrefixManager getUserPrefixManager() {
+        return userPrefixManager;
     }
 
     public @NotNull UserStatsManager getUserStatsManager() {
@@ -67,6 +73,8 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
         UserPrefixesDAO userPrefixesDAO = new UserPrefixesDAO(mysqlDatabase);
         userPrefixesDAO.initialize();
+
+        userPrefixManager = new UserPrefixManager(userPrefixesDAO);
 
         UserStatsDAO userStatsDAO  = new UserStatsDAO(mysqlDatabase);
         userStatsDAO.initialize();
