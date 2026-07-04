@@ -3,6 +3,7 @@ package com.github.silvertreekr.mcprefixachievement;
 import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
+import com.github.silvertreekr.mcprefixachievement.dao.UserStatsDAO;
 import com.github.silvertreekr.mcprefixachievement.database.MysqlDatabase;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -51,10 +52,14 @@ public final class MCPrefixAchievement extends JavaPlugin {
         // Initialize the MySQL Database
         try {
             mysqlDatabase = MysqlDatabase.initialize(this);
+
         } catch (Exception e) {
             getSLF4JLogger().error("Failed to initialize MySQL database", e);
             getServer().getPluginManager().disablePlugin(this);
         }
+
+        UserStatsDAO userStatsDAO  = new UserStatsDAO(mysqlDatabase);
+        userStatsDAO.initialize();
 
     }
 
