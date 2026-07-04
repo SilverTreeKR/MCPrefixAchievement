@@ -81,6 +81,8 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
         userStatsManager = new UserStatsManager(userStatsDAO);
 
+        new PlayerJoinEventListener(this);
+        new PlayerQuitEventListener(this);
     }
 
     @Override
