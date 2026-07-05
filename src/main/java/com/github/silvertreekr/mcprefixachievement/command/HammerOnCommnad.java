@@ -30,6 +30,8 @@ public class HammerOnCommnad extends BukkitCommand {
         }
         if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), 7)) {
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(7).getDisplayPrefix()));
+
+            return false;
         }
         if (args.length != 0) {
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><red>올바르지 않은 명령어입니다.");
