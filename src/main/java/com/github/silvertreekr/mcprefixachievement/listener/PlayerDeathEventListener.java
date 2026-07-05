@@ -7,6 +7,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.damage.DamageType;
 import org.bukkit.entity.Player;
@@ -83,7 +84,12 @@ public class PlayerDeathEventListener implements Listener {
                 potion.setItemMeta(potionMeta);
                 potion.setAmount(1);
 
-                event.getPlayer().give(List.of(potion));
+                Player player = event.getPlayer();
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    if (player.isOnline()) {
+                        player.give(List.of(potion));
+                    }
+                });
             }
         }
         grantPrefix(uuid, prefixID, event.getPlayer());
@@ -110,7 +116,12 @@ public class PlayerDeathEventListener implements Listener {
                 playerHead.setItemMeta(headMeta);
                 playerHead.setAmount(1);
 
-                event.getPlayer().give(playerHead);
+                Player player = event.getPlayer();
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                   if (player.isOnline()) {
+                       player.give(playerHead);
+                   }
+                });
             }
         }
         grantPrefix(uuid, prefixID, event.getPlayer());
