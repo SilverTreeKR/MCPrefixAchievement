@@ -51,7 +51,7 @@ public class PlayerGetDragonBreathEventListener implements Listener {
 
         Player player = event.getPlayer();
         ItemStack itemBefore = player.getInventory().getItem(hand);
-        if (itemBefore == null || !itemBefore.getType().equals(Material.GLASS_BOTTLE)) {
+        if (!itemBefore.getType().equals(Material.GLASS_BOTTLE)) {
             return;
         }
 
