@@ -62,6 +62,7 @@ public class BlockBreakEventListener implements Listener {
 
             event.getPlayer().give(List.of(diamondShovel));
         }
+        grantPrefix(uuid, prefixID, event.getPlayer());
     }
 
     @EventHandler
