@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -22,21 +23,8 @@ import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerJoinEventListener implements Listener {
-
-    private void grantPrefix(UUID uuid, int prefixID, Player player) {
-        MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-        UserPrefixManager prefixManager = plugin.getUserPrefixManager();
-        UserStatsManager statsManager = plugin.getUserStatsManager();
-        PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
-
-        if (prefixID != -1) {
-            Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
-            if (prefix != null) {
-                prefixManager.addPrefix(uuid, prefixID);
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-            }
-        }
-    }
+    private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
+    private final UserStatsManager statsManager = plugin.getUserStatsManager();
 
     public PlayerJoinEventListener(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -74,7 +62,7 @@ public class PlayerJoinEventListener implements Listener {
                     items.add(new ItemStack(Material.TORCH, 32));
                     player.give(items);
                 }
-                grantPrefix(uuid, prefixID, player);
+                PrefixGranter.grantPrefix(player, prefixID);
             });
         });
     }

@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -19,20 +20,7 @@ import java.util.UUID;
 
 public class EntityPickupItemEventListener implements Listener {
     private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserPrefixManager prefixManager = plugin.getUserPrefixManager();
     private final UserStatsManager statsManager = plugin.getUserStatsManager();
-    private final PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
-
-    private void grantPrefix(UUID uuid, int prefixID, Player player) {
-        if (prefixID != -1) {
-            Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
-
-            if (prefix != null) {
-                prefixManager.addPrefix(uuid, prefixID);
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-            }
-        }
-    }
 
     public EntityPickupItemEventListener(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -53,7 +41,7 @@ public class EntityPickupItemEventListener implements Listener {
                     player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
                 }
             }
-            grantPrefix(uuid, prefixID, player);
+            PrefixGranter.grantPrefix(player, prefixID);
         }
     }
 }

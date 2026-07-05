@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.damage.DamageType;
@@ -20,20 +21,7 @@ import java.util.UUID;
 
 public class EntityDeathEventListener implements Listener {
     private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserPrefixManager prefixManager = plugin.getUserPrefixManager();
     private final UserStatsManager statsManager = plugin.getUserStatsManager();
-    private final PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
-
-    private void grantPrefix(UUID uuid, int prefixID, Player player) {
-        if (prefixID != -1) {
-            Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
-
-            if (prefix != null) {
-                prefixManager.addPrefix(uuid, prefixID);
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-            }
-        }
-    }
 
     public EntityDeathEventListener(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -45,7 +33,8 @@ public class EntityDeathEventListener implements Listener {
 
         if (event.getEntityType().equals(EntityType.ENDER_DRAGON)) {
             if (event.getEntity().getKiller() != null) {
-                UUID uuid = event.getEntity().getKiller().getUniqueId();
+                Player player = event.getEntity().getKiller();
+                UUID uuid = player.getUniqueId();
                 int count = statsManager.getStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON);
                 count++;
                 statsManager.setStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON, count);
@@ -53,7 +42,7 @@ public class EntityDeathEventListener implements Listener {
                     // 용살자
                     prefixID = 6;
                 }
-                grantPrefix(uuid, prefixID, event.getEntity().getKiller());
+                PrefixGranter.grantPrefix(player, prefixID);
             }
         }
     }
@@ -64,7 +53,8 @@ public class EntityDeathEventListener implements Listener {
 
         if (event.getEntityType().equals(EntityType.ENDERMAN)) {
             if (event.getEntity().getKiller() != null) {
-                UUID uuid = event.getEntity().getKiller().getUniqueId();
+                Player player = event.getEntity().getKiller();
+                UUID uuid = player.getUniqueId();
                 Player killer = event.getEntity().getKiller();
                 boolean killedWithMace = killer.getInventory().getItemInMainHand().getType().equals(Material.MACE);
                 if (killedWithMace) {
@@ -76,7 +66,7 @@ public class EntityDeathEventListener implements Listener {
                         prefixID = 7;
                     }
                 }
-                grantPrefix(uuid, prefixID, event.getEntity().getKiller());
+                PrefixGranter.grantPrefix(player, prefixID);
             }
         }
     }

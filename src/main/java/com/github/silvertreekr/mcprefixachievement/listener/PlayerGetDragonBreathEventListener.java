@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -25,20 +26,7 @@ import java.util.UUID;
 
 public class PlayerGetDragonBreathEventListener implements Listener {
     private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserPrefixManager prefixManager = plugin.getUserPrefixManager();
     private final UserStatsManager statsManager = plugin.getUserStatsManager();
-    private final PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
-
-    private void grantPrefix(UUID uuid, int prefixID, Player player) {
-        if (prefixID != -1) {
-            Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
-
-            if (prefix != null) {
-                prefixManager.addPrefix(uuid, prefixID);
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-            }
-        }
-    }
 
     private int countDragonBreath(Player player) {
         int total = 0;
@@ -100,7 +88,7 @@ public class PlayerGetDragonBreathEventListener implements Listener {
 
                 player.give(dragonBreath);
             }
-            grantPrefix(uuid, prefixID, player);
+            PrefixGranter.grantPrefix(player, prefixID);
         });
     }
 }

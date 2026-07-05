@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -20,20 +21,7 @@ import java.util.UUID;
 
 public class BlockPlaceEventListener implements Listener {
     private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserPrefixManager prefixManager = plugin.getUserPrefixManager();
     private final UserStatsManager statsManager = plugin.getUserStatsManager();
-    private final PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
-
-    private void grantPrefix(UUID uuid, int prefixID, Player player) {
-        if (prefixID != -1) {
-            Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
-
-            if (prefix != null) {
-                prefixManager.addPrefix(uuid, prefixID);
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-            }
-        }
-    }
 
     public BlockPlaceEventListener(JavaPlugin plugin) {
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
@@ -41,7 +29,8 @@ public class BlockPlaceEventListener implements Listener {
 
     @EventHandler
     public void onPlayerPlaceAnyBlock(BlockPlaceEvent event) {
-        UUID uuid = event.getPlayer().getUniqueId();
+        Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
         int prefixID = -1;
 
         int anyBlockPlaceCount = statsManager.getStatValue(uuid, PrefixStat.PLACE_BLOCK);
@@ -58,6 +47,6 @@ public class BlockPlaceEventListener implements Listener {
             List<ItemStack> items = List.of(new ItemStack(Material.SPONGE, 5));
             event.getPlayer().give(items);
         }
-        grantPrefix(uuid, prefixID, event.getPlayer());
+        PrefixGranter.grantPrefix(player, prefixID);
     }
 }
