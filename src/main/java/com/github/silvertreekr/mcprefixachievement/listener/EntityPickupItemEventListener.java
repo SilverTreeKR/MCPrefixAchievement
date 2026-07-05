@@ -30,8 +30,8 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
         }
 
         UUID uuid = event.getEntity().getUniqueId();
-        int count = incrementStat(uuid, PrefixStat.GET_DRAGON_EGG);
-        if (count == FIRST_PICKUP) {
+        var count = incrementStat(uuid, PrefixStat.GET_DRAGON_EGG);
+        if (count.isPresent() && count.getAsInt() == FIRST_PICKUP) {
             player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
             PrefixGranter.grantPrefix(player, PrefixIds.DRAGON_EGG);
         }

@@ -29,6 +29,10 @@ public class PrefixGranter {
         UUID uuid = player.getUniqueId();
         Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
 
+        if (!prefixManager.isPlayerLoaded(uuid)) {
+            return false;
+        }
+
         if (prefix == null || prefixManager.hasPrefix(uuid, prefixID)) {
             return false;
         }

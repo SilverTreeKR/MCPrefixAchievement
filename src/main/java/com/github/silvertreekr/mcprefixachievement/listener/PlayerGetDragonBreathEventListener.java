@@ -66,8 +66,8 @@ public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
                 return;
             }
 
-            int count = incrementStat(uuid, PrefixStat.GET_DRAGON_BREATH);
-            if (count == FIRST_COLLECTION) {
+            var count = incrementStat(uuid, PrefixStat.GET_DRAGON_BREATH);
+            if (count.isPresent() && count.getAsInt() == FIRST_COLLECTION) {
                 player.give(createDragonBreathReward());
                 PrefixGranter.grantPrefix(player, PrefixIds.DRAGON_BREATH);
             }

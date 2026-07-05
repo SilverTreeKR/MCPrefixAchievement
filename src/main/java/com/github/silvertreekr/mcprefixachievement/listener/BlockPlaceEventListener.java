@@ -26,11 +26,15 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        int placedBlocks = incrementStat(uuid, PrefixStat.PLACE_BLOCK);
-        if (placedBlocks == BUILDER_REQUIRED_BLOCKS) {
+        var placedBlocks = incrementStat(uuid, PrefixStat.PLACE_BLOCK);
+        if (placedBlocks.isEmpty()) {
+            return;
+        }
+
+        if (placedBlocks.getAsInt() == BUILDER_REQUIRED_BLOCKS) {
             player.give(List.of(new ItemStack(Material.SCAFFOLDING, 64)));
             PrefixGranter.grantPrefix(player, PrefixIds.BUILDER);
-        } else if (placedBlocks == GAUDI_REQUIRED_BLOCKS) {
+        } else if (placedBlocks.getAsInt() == GAUDI_REQUIRED_BLOCKS) {
             player.give(List.of(new ItemStack(Material.SPONGE, 5)));
             PrefixGranter.grantPrefix(player, PrefixIds.GAUDI);
         }

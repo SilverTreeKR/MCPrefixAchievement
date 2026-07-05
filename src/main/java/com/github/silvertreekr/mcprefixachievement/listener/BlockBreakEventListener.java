@@ -30,8 +30,8 @@ public class BlockBreakEventListener extends AbstractPrefixListener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        int count = incrementStat(uuid, PrefixStat.BREAK_BLOCK);
-        if (count == MINER_REQUIRED_BLOCKS) {
+        var count = incrementStat(uuid, PrefixStat.BREAK_BLOCK);
+        if (count.isPresent() && count.getAsInt() == MINER_REQUIRED_BLOCKS) {
             player.give(List.of(createMinerReward()));
             PrefixGranter.grantPrefix(player, PrefixIds.MINER);
         }
@@ -46,8 +46,8 @@ public class BlockBreakEventListener extends AbstractPrefixListener {
             return;
         }
 
-        int count = incrementStat(uuid, PrefixStat.BREAK_DIAMOND_ORE);
-        if (count == DIAMOND_ORE_REQUIRED_BLOCKS) {
+        var count = incrementStat(uuid, PrefixStat.BREAK_DIAMOND_ORE);
+        if (count.isPresent() && count.getAsInt() == DIAMOND_ORE_REQUIRED_BLOCKS) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20 * 60 * 5, 0));
             PrefixGranter.grantPrefix(player, PrefixIds.DIAMOND_COLLECTOR);
         }

@@ -15,6 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
@@ -110,17 +112,24 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (userStatsManager == null || userPrefixManager == null) {
-            return;
-        }
+        try {
+            if (userStatsManager != null && userPrefixManager != null) {
+                List<CompletableFuture<Void>> saveTasks = new ArrayList<>();
+                for (Player player : Bukkit.getOnlinePlayers()) {
+                    UUID uuid = player.getUniqueId();
+                    saveTasks.add(userStatsManager.savePlayerStatsData(uuid));
+                    saveTasks.add(userPrefixManager.savePlayerPrefixData(uuid));
+                }
 
-        for (Player player : Bukkit.getOnlinePlayers()) {
-            UUID uuid = player.getUniqueId();
-            userStatsManager.savePlayerStatsData(uuid).join();
-            userPrefixManager.savePlayerPrefixData(uuid).join();
-        }
-        if (mysqlDatabase != null) {
-            mysqlDatabase.shutdown();
+                // 서버 종료 중에는 비동기 저장이 끝나기 전에 DB executor가 닫히면 데이터가 유실될 수 있다.
+                CompletableFuture.allOf(saveTasks.toArray(CompletableFuture[]::new)).join();
+            }
+        } catch (Exception e) {
+            getSLF4JLogger().error("Failed to save online player data while disabling plugin", e);
+        } finally {
+            if (mysqlDatabase != null) {
+                mysqlDatabase.shutdown();
+            }
         }
     }
 }

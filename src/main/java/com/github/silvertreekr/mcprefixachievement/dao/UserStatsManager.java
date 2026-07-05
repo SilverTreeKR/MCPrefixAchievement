@@ -30,6 +30,10 @@ public class UserStatsManager {
         userStats.remove(uuid);
     }
 
+    public boolean isPlayerLoaded(UUID uuid) {
+        return userStats.containsKey(uuid);
+    }
+
     public CompletableFuture<Void> savePlayerStatsData(UUID uuid) {
         Map<PrefixStat, Integer> stats = userStats.get(uuid);
         if (stats == null) {
@@ -47,8 +51,12 @@ public class UserStatsManager {
     }
 
     public void setStatValue(UUID uuid, PrefixStat stat, int value) {
+        if (!isPlayerLoaded(uuid)) {
+            return;
+        }
+
         EnumMap<PrefixStat, Integer> stats = new EnumMap<>(PrefixStat.class);
-        stats.putAll(userStats.getOrDefault(uuid, Map.of()));
+        stats.putAll(userStats.get(uuid));
         stats.put(stat, value);
         userStats.put(uuid, stats);
     }

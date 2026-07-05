@@ -35,16 +35,21 @@ public class PlayerJoinEventListener implements Listener {
         UUID uuid = player.getUniqueId();
 
 
-        // load PlayerPrefixData & PlayerStatsData to each Cache
         CompletableFuture<Void> prefixLoad = prefixManager.loadPlayerPrefixData(uuid);
         CompletableFuture<Void> statsLoad = statsManager.loadPlayerStatsData(uuid);
 
-        CompletableFuture.allOf(prefixLoad, statsLoad).thenRun(() -> {
+        CompletableFuture.allOf(prefixLoad, statsLoad).whenComplete((ignored, throwable) -> {
+            if (throwable != null) {
+                plugin.getSLF4JLogger().error("Failed to load player prefix achievement data: {}", player.getName(), throwable);
+                return;
+            }
+
             Bukkit.getScheduler().runTask(plugin, () -> {
                 if (!player.isOnline()) {
-                    return; // 로드되는 사이 플레이어가 이미 퇴장했으면 아무것도 하지 않음
+                    return;
                 }
 
+                // FIRST_JOIN 보상은 DB 로드 이후 한 번만 판정해야 중복 지급되지 않는다.
                 if (statsManager.getStatValue(uuid, PrefixStat.FIRST_JOIN) == 0) {
                     statsManager.setStatValue(uuid, PrefixStat.FIRST_JOIN, 1);
                     player.give(createFirstJoinReward());

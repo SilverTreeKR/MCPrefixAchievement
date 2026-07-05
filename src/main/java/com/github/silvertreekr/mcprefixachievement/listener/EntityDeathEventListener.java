@@ -27,8 +27,8 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
 
         Player player = event.getEntity().getKiller();
         UUID uuid = player.getUniqueId();
-        int count = incrementStat(uuid, PrefixStat.KILL_ENDER_DRAGON);
-        if (count == FIRST_KILL) {
+        var count = incrementStat(uuid, PrefixStat.KILL_ENDER_DRAGON);
+        if (count.isPresent() && count.getAsInt() == FIRST_KILL) {
             if (PrefixGranter.grantPrefix(player, PrefixIds.DRAGON_SLAYER)) {
                 PrefixGranter.broadcastPrefix(player, PrefixIds.DRAGON_SLAYER);
             }
@@ -48,8 +48,8 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
         }
 
         UUID uuid = player.getUniqueId();
-        int count = incrementStat(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
-        if (count == FIRST_KILL) {
+        var count = incrementStat(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
+        if (count.isPresent() && count.getAsInt() == FIRST_KILL) {
             PrefixGranter.grantPrefix(player, PrefixIds.HAMMER_ON);
         }
     }

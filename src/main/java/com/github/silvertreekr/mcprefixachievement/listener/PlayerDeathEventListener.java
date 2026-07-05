@@ -33,8 +33,8 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        int anyDeathCount = incrementStat(uuid, PrefixStat.ANY_DEATH_COUNT);
-        if (anyDeathCount == FIRST_DEATH_COUNT) {
+        var anyDeathCount = incrementStat(uuid, PrefixStat.ANY_DEATH_COUNT);
+        if (anyDeathCount.isPresent() && anyDeathCount.getAsInt() == FIRST_DEATH_COUNT) {
             PrefixGranter.grantPrefix(player, PrefixIds.FIRST_DEATH);
         }
     }
@@ -48,8 +48,8 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
             return;
         }
 
-        int lavaDeathCount = incrementStat(uuid, PrefixStat.LAVA_DEATH_COUNT);
-        if (lavaDeathCount == FIRST_DEATH_COUNT) {
+        var lavaDeathCount = incrementStat(uuid, PrefixStat.LAVA_DEATH_COUNT);
+        if (lavaDeathCount.isPresent() && lavaDeathCount.getAsInt() == FIRST_DEATH_COUNT) {
             giveIfOnlineNextTick(player, createFireResistancePotion());
             PrefixGranter.grantPrefix(player, PrefixIds.LAVA_CHICKEN);
         }
@@ -64,8 +64,8 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
             return;
         }
 
-        int voidDeathCount = incrementStat(uuid, PrefixStat.VOID_DEATH_COUNT);
-        if (voidDeathCount == FIRST_DEATH_COUNT) {
+        var voidDeathCount = incrementStat(uuid, PrefixStat.VOID_DEATH_COUNT);
+        if (voidDeathCount.isPresent() && voidDeathCount.getAsInt() == FIRST_DEATH_COUNT) {
             giveIfOnlineNextTick(player, createPlayerHead(player));
             PrefixGranter.grantPrefix(player, PrefixIds.VOID_DEATH);
         }

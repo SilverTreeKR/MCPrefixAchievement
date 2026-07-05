@@ -28,6 +28,10 @@ public class UserPrefixManager {
         userPrefixes.remove(uuid);
     }
 
+    public boolean isPlayerLoaded(UUID uuid) {
+        return userPrefixes.containsKey(uuid);
+    }
+
     public CompletableFuture<Void> savePlayerPrefixData(UUID uuid) {
         Set<Integer> prefixes = userPrefixes.get(uuid);
         if (prefixes == null) {

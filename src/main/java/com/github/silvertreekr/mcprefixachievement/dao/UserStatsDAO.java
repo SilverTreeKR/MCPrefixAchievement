@@ -45,8 +45,12 @@ public class UserStatsDAO {
                 statement.setString(1, uuid.toString());
                 try (ResultSet resultSet = statement.executeQuery()) {
                     while (resultSet.next()) {
-                        PrefixStat stat = PrefixStat.valueOf(resultSet.getString("stat").toUpperCase());
-                        playerStats.put(stat, resultSet.getInt("value"));
+                        try {
+                            PrefixStat stat = PrefixStat.valueOf(resultSet.getString("stat").toUpperCase());
+                            playerStats.put(stat, resultSet.getInt("value"));
+                        } catch (IllegalArgumentException ignored) {
+                            // DB에 남은 구버전 stat 값은 현재 enum과 매칭되지 않으므로 로드에서 제외한다.
+                        }
                     }
                 }
                 return playerStats;
