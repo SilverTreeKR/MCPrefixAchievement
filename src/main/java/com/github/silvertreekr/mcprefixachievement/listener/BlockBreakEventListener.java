@@ -1,8 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
-import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
-import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;

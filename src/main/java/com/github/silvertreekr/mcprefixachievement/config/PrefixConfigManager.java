@@ -1,7 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.config;
 
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
-import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -9,10 +8,8 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collections;
-import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import java.util.stream.Collectors;
 
 public class PrefixConfigManager {
     private final JavaPlugin plugin;
