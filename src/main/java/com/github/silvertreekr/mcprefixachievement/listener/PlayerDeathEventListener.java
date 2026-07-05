@@ -7,6 +7,7 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -82,7 +83,7 @@ public class PlayerDeathEventListener implements Listener {
                 PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
 
                 potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*60*3, 0), true);
-                potionMeta.customName(Component.text("화염저항의 물약"));
+                potionMeta.customName(Component.text("화염저항의 물약").decoration(TextDecoration.ITALIC, false));
                 potion.setItemMeta(potionMeta);
                 potion.setAmount(1);
 

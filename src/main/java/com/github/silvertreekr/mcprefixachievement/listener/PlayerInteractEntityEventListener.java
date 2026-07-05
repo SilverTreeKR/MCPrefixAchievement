@@ -94,7 +94,7 @@ public class PlayerInteractEntityEventListener implements Listener {
                 prefixID = 11;
                 ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
                 ItemMeta itemMeta = dragonBreath.getItemMeta();
-                itemMeta.customName(Component.text("용의 콧물"));
+                itemMeta.customName(Component.text("용의 콧물").decoration(TextDecoration.ITALIC, false));
                 dragonBreath.setItemMeta(itemMeta);
                 dragonBreath.setAmount(1);
 
