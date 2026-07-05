@@ -6,6 +6,8 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 
 public class Prefix {
+    private static final MiniMessage MINI_MESSAGE = MiniMessage.miniMessage();
+
     private final Component displayPrefix;
     private final PrefixStat requiredStat;
     private final int requiredStatValue;
@@ -27,7 +29,7 @@ public class Prefix {
         if (displayPrefix == null) {
             throw new IllegalArgumentException("display-name is null");
         }
-        Component deserializedDisplayPrefix = MiniMessage.miniMessage().deserialize(displayPrefix);
+        Component deserializedDisplayPrefix = MINI_MESSAGE.deserialize(displayPrefix);
 
 
         String requiredStatString = config.getString("required-stat");
@@ -50,13 +52,13 @@ public class Prefix {
         if (descriptionString == null) {
             throw new IllegalArgumentException("description is null");
         }
-        Component description = MiniMessage.miniMessage().deserialize(descriptionString);
+        Component description = MINI_MESSAGE.deserialize(descriptionString);
 
         String rewardString = config.getString("reward");
         if (rewardString == null) {
             throw new IllegalArgumentException("reward is null");
         }
-        Component reward = MiniMessage.miniMessage().deserialize(rewardString);
+        Component reward = MINI_MESSAGE.deserialize(rewardString);
 
         return new Prefix(deserializedDisplayPrefix, requiredStat, requiredStatValue, description, reward);
     }

@@ -1,43 +1,39 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
-import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixIds;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
-public class EntityPickupItemEventListener implements Listener {
-    private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserStatsManager statsManager = plugin.getUserStatsManager();
+public class EntityPickupItemEventListener extends AbstractPrefixListener {
+    private static final int FIRST_PICKUP = 1;
 
-    public EntityPickupItemEventListener(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public EntityPickupItemEventListener(MCPrefixAchievement plugin) {
+        super(plugin);
     }
 
     @EventHandler
     public void onPlayerPickUpDragonEgg(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player player){
-            UUID uuid = event.getEntity().getUniqueId();
-            int prefixID = -1;
+        if (!(event.getEntity() instanceof Player player)) {
+            return;
+        }
 
-            if (event.getItem().getItemStack().getType().equals(Material.DRAGON_EGG)) {
-                int count = statsManager.getStatValue(uuid, PrefixStat.GET_DRAGON_EGG);
-                count++;
-                statsManager.setStatValue(uuid, PrefixStat.GET_DRAGON_EGG, count);
-                if (count == 1) {
-                    prefixID = 12;
-                    player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
-                }
-            }
-            PrefixGranter.grantPrefix(player, prefixID);
+        if (event.getItem().getItemStack().getType() != Material.DRAGON_EGG) {
+            return;
+        }
+
+        UUID uuid = event.getEntity().getUniqueId();
+        int count = incrementStat(uuid, PrefixStat.GET_DRAGON_EGG);
+        if (count == FIRST_PICKUP) {
+            player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
+            PrefixGranter.grantPrefix(player, PrefixIds.DRAGON_EGG);
         }
     }
 }

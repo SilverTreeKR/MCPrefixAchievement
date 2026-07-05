@@ -20,8 +20,7 @@ public class UserPrefixesDAO {
 
     public CompletableFuture<Void> initialize() {
         return database.runAsync(connection -> {
-            try {
-                Statement statement = connection.createStatement();
+            try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate("""
                         CREATE TABLE IF NOT EXISTS user_prefixes (
                         uuid VARCHAR(36) NOT NULL,
@@ -38,15 +37,14 @@ public class UserPrefixesDAO {
 
     public CompletableFuture<Set<Integer>> getPrefixIDs(UUID uuid) {
         return database.supplyAsync(connection -> {
-            try {
+            String sql = "SELECT prefix_id FROM user_prefixes WHERE uuid = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 Set<Integer> prefixIDs = new HashSet<>();
-                String sql = "SELECT * FROM user_prefixes WHERE uuid = ?;";
-                PreparedStatement statement = connection.prepareStatement(sql);
                 statement.setString(1, uuid.toString());
-                ResultSet resultSet = statement.executeQuery();
-                while (resultSet.next()) {
-                     int prefixID = resultSet.getInt("prefix_id");
-                     prefixIDs.add(prefixID);
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        prefixIDs.add(resultSet.getInt("prefix_id"));
+                    }
                 }
                 return prefixIDs;
             } catch (SQLException e) {
@@ -56,6 +54,10 @@ public class UserPrefixesDAO {
     }
 
     public CompletableFuture<Void> addPrefixes(UUID uuid, Set<Integer> prefixIDs) {
+        if (prefixIDs.isEmpty()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
         return database.runAsync(connection -> {
             String sql = "INSERT IGNORE INTO user_prefixes(uuid, prefix_id) VALUES (?, ?);";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
@@ -73,14 +75,14 @@ public class UserPrefixesDAO {
 
     public CompletableFuture<Void> deletePrefix(UUID uuid, int id) {
         return database.runAsync(connection -> {
-           String sql = "DELETE FROM user_prefixes WHERE uuid = ? AND prefix_id = ?;";
-           try (PreparedStatement statement = connection.prepareStatement(sql)) {
-               statement.setString(1, uuid.toString());
-               statement.setInt(2, id);
-               statement.executeUpdate();
-           } catch (SQLException e) {
-               throw new RuntimeException(e);
-           }
+            String sql = "DELETE FROM user_prefixes WHERE uuid = ? AND prefix_id = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                statement.setString(1, uuid.toString());
+                statement.setInt(2, id);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 }

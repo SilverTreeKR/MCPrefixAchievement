@@ -4,6 +4,7 @@ import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixIds;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
@@ -17,35 +18,37 @@ public class PrefixGranter {
     private PrefixGranter() {
 
     }
-    public static void grantPrefix(Player player, int prefixID) {
+    public static boolean grantPrefix(Player player, int prefixID) {
+        if (prefixID == PrefixIds.NONE) {
+            return false;
+        }
+
         MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
         PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
         UserPrefixManager prefixManager = plugin.getUserPrefixManager();
         UUID uuid = player.getUniqueId();
         Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
 
-        if (prefix == null) {
-            return;
-        }
-        if (prefixID == -1) {
-            return;
+        if (prefix == null || prefixManager.hasPrefix(uuid, prefixID)) {
+            return false;
         }
 
         prefixManager.addPrefix(uuid, prefixID);
         player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
+        return true;
     }
 
     public static void broadcastPrefix(Player player, int prefixID) {
+        if (prefixID == PrefixIds.NONE) {
+            return;
+        }
+
         MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
         PrefixConfigManager prefixConfigManager = plugin.getPrefixConfigManager();
         Prefix prefix = prefixConfigManager.getPrefixById(prefixID);
 
         if (prefix == null) {
-            return;
-        }
-
-        if (prefixID == -1) {
             return;
         }
 

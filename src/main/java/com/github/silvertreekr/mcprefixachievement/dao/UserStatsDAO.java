@@ -21,8 +21,7 @@ public class UserStatsDAO {
 
     public CompletableFuture<Void> initialize() {
         return database.runAsync(connection -> {
-            try {
-                Statement statement = connection.createStatement();
+            try (Statement statement = connection.createStatement()) {
                 statement.executeUpdate("""
                         CREATE TABLE IF NOT EXISTS user_stats (
                         uuid VARCHAR(36) NOT NULL,
@@ -40,30 +39,34 @@ public class UserStatsDAO {
 
     public CompletableFuture<Map<PrefixStat, Integer>> getPlayerStats(UUID uuid) {
         return database.supplyAsync(connection -> {
-           String sql = "SELECT * FROM user_stats WHERE uuid = ?;";
-           try (PreparedStatement statement = connection.prepareStatement(sql)) {
-               Map<PrefixStat, Integer> playerStats = new HashMap<>();
-               statement.setString(1, uuid.toString());
-               ResultSet resultSet = statement.executeQuery();
-               while (resultSet.next()) {
-                   String stats = resultSet.getString("stat");
-                   int value = resultSet.getInt("value");
-                   playerStats.put(PrefixStat.valueOf(stats.toUpperCase()), value);
-               }
-               return playerStats;
-           } catch (SQLException e) {
-               throw new RuntimeException(e);
-           }
+            String sql = "SELECT stat, value FROM user_stats WHERE uuid = ?;";
+            try (PreparedStatement statement = connection.prepareStatement(sql)) {
+                Map<PrefixStat, Integer> playerStats = new HashMap<>();
+                statement.setString(1, uuid.toString());
+                try (ResultSet resultSet = statement.executeQuery()) {
+                    while (resultSet.next()) {
+                        PrefixStat stat = PrefixStat.valueOf(resultSet.getString("stat").toUpperCase());
+                        playerStats.put(stat, resultSet.getInt("value"));
+                    }
+                }
+                return playerStats;
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         });
     }
 
     public CompletableFuture<Void> setStats(UUID uuid, Map<PrefixStat, Integer> stats) {
+        if (stats.isEmpty()) {
+            return CompletableFuture.completedFuture(null);
+        }
+
         return database.runAsync(connection -> {
-           String sql = "INSERT INTO user_stats(uuid, stat, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = VALUES(value);";
+            String sql = "INSERT INTO user_stats(uuid, stat, value) VALUES (?, ?, ?) ON DUPLICATE KEY UPDATE value = VALUES(value);";
             try (PreparedStatement statement = connection.prepareStatement(sql)) {
                 for (Map.Entry<PrefixStat, Integer> entry : stats.entrySet()) {
                     statement.setString(1, uuid.toString());
-                    statement.setString(2, entry.getKey().toString().toUpperCase());
+                    statement.setString(2, entry.getKey().name());
                     statement.setInt(3, entry.getValue());
                     statement.addBatch();
                 }

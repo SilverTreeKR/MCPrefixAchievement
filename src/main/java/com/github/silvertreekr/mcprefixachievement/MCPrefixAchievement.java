@@ -1,6 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement;
 
-import com.github.silvertreekr.mcprefixachievement.command.HammerOnCommnad;
+import com.github.silvertreekr.mcprefixachievement.command.HammerOnCommand;
 import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
@@ -15,13 +15,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 public final class MCPrefixAchievement extends JavaPlugin {
     private static MCPrefixAchievement instance;
@@ -71,9 +66,9 @@ public final class MCPrefixAchievement extends JavaPlugin {
         prefixConfigManager = new PrefixConfigManager(this);
         prefixConfigManager.readConfig(prefixConfigLoader);
 
-        // Initialize command
+        // Initialize commands
         new PrefixCommand(this);
-        new HammerOnCommnad(this);
+        new HammerOnCommand(this);
 
         // Initialize the MySQL Database
         try {
@@ -82,19 +77,27 @@ public final class MCPrefixAchievement extends JavaPlugin {
         } catch (Exception e) {
             getSLF4JLogger().error("Failed to initialize MySQL database", e);
             getServer().getPluginManager().disablePlugin(this);
+            return;
         }
 
         UserPrefixesDAO userPrefixesDAO = new UserPrefixesDAO(mysqlDatabase);
-        userPrefixesDAO.initialize();
-
-        userPrefixManager = new UserPrefixManager(userPrefixesDAO);
+        userPrefixManager = new UserPrefixManager(userPrefixesDAO, prefixConfigManager);
 
         UserStatsDAO userStatsDAO  = new UserStatsDAO(mysqlDatabase);
-        userStatsDAO.initialize();
-
         userStatsManager = new UserStatsManager(userStatsDAO);
 
-        // Register EventListeners
+        try {
+            CompletableFuture.allOf(
+                    userPrefixesDAO.initialize(),
+                    userStatsDAO.initialize()
+            ).join();
+        } catch (Exception e) {
+            getSLF4JLogger().error("Failed to initialize database tables", e);
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        // Register event listeners
         new BlockBreakEventListener(this);
         new BlockPlaceEventListener(this);
         new EntityDeathEventListener(this);
@@ -107,6 +110,10 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (userStatsManager == null || userPrefixManager == null) {
+            return;
+        }
+
         for (Player player : Bukkit.getOnlinePlayers()) {
             UUID uuid = player.getUniqueId();
             userStatsManager.savePlayerStatsData(uuid).join();

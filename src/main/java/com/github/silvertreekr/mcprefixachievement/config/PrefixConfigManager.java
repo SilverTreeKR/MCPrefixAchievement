@@ -21,6 +21,7 @@ public class PrefixConfigManager {
 
     public void readConfig(@NotNull PrefixConfigLoader loader) {
         YamlConfiguration config = loader.getPrefixConfig();
+        prefixMap.clear();
         for (String key : config.getKeys(false)) {
             try {
                 int index = Integer.parseInt(key);
@@ -38,7 +39,6 @@ public class PrefixConfigManager {
 
     public void reloadConfig(@NotNull PrefixConfigLoader loader) {
         loader.loadPrefixConfig();
-        prefixMap.clear();
         readConfig(loader);
     }
 
