@@ -53,7 +53,7 @@ public class EntityPickupItemEventListener implements Listener {
                     player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
                 }
             }
-            grantPrefix(uuid, 12, player);
+            grantPrefix(uuid, prefixID, player);
         }
     }
 }
