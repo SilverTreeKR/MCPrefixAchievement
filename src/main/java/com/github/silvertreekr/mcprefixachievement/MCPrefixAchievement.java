@@ -11,8 +11,18 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserStatsDAO;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.database.MysqlDatabase;
 import com.github.silvertreekr.mcprefixachievement.listener.*;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 public final class MCPrefixAchievement extends JavaPlugin {
     private static MCPrefixAchievement instance;
@@ -99,6 +109,28 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     @Override
     public void onDisable() {
+        if (userPrefixManager != null && userStatsManager != null) {
+            List<CompletableFuture<Void>> saveFutures = new ArrayList<>();
+
+            for (Player player : Bukkit.getOnlinePlayers()) {
+                UUID uuid = player.getUniqueId();
+                saveFutures.add(userPrefixManager.savePlayerPrefixData(uuid));
+                saveFutures.add(userStatsManager.savePlayerStatsData(uuid));
+            }
+
+            try {
+                CompletableFuture.allOf(saveFutures.toArray(new CompletableFuture[0]))
+                        .get(10, TimeUnit.SECONDS);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                getSLF4JLogger().error("Interrupted while saving player data on shutdown", e);
+            } catch (ExecutionException e) {
+                getSLF4JLogger().error("Failed to save player data on shutdown", e);
+            } catch (TimeoutException e) {
+                getSLF4JLogger().error("Timed out waiting for player data to save on shutdown", e);
+            }
+        }
+
         if (mysqlDatabase != null) {
             mysqlDatabase.shutdown();
         }

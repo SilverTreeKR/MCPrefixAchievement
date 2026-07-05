@@ -31,8 +31,12 @@ public class UserStatsManager {
         userStats.remove(uuid);
     }
 
-    public void savePlayerStatsData(UUID uuid) {
-        userStatsDAO.setStats(uuid,userStats.get(uuid));
+    public CompletableFuture<Void> savePlayerStatsData(UUID uuid) {
+        Map<PrefixStat, Integer> stats = userStats.get(uuid);
+        if (stats == null) {
+            return CompletableFuture.completedFuture(null);
+        }
+        return userStatsDAO.setStats(uuid, stats);
     }
 
     public int getStatValue(UUID uuid, PrefixStat stat) {

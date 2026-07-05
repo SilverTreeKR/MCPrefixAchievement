@@ -14,6 +14,7 @@ import java.util.Properties;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 import java.util.function.Function;
 
@@ -90,5 +91,14 @@ public class MysqlDatabase {
     // ExecutorService 종료
     public void shutdown() {
         executor.shutdown();
+        try {
+            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
+                logger.warn("DB executor did not terminate within timeout, forcing shutdown");
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+            executor.shutdownNow();
+        }
     }
 }
