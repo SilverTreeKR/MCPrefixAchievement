@@ -107,28 +107,11 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        if (userPrefixManager != null && userStatsManager != null) {
-            List<CompletableFuture<Void>> saveFutures = new ArrayList<>();
-
-            for (Player player : Bukkit.getOnlinePlayers()) {
-                UUID uuid = player.getUniqueId();
-                saveFutures.add(userPrefixManager.savePlayerPrefixData(uuid));
-                saveFutures.add(userStatsManager.savePlayerStatsData(uuid));
-            }
-
-            try {
-                CompletableFuture.allOf(saveFutures.toArray(new CompletableFuture[0]))
-                        .get(10, TimeUnit.SECONDS);
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                getSLF4JLogger().error("Interrupted while saving player data on shutdown", e);
-            } catch (ExecutionException e) {
-                getSLF4JLogger().error("Failed to save player data on shutdown", e);
-            } catch (TimeoutException e) {
-                getSLF4JLogger().error("Timed out waiting for player data to save on shutdown", e);
-            }
+        for (Player player : Bukkit.getOnlinePlayers()) {
+            UUID uuid = player.getUniqueId();
+            userStatsManager.savePlayerStatsData(uuid).join();
+            userPrefixManager.savePlayerPrefixData(uuid).join();
         }
-
         if (mysqlDatabase != null) {
             mysqlDatabase.shutdown();
         }

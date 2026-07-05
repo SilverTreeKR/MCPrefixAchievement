@@ -91,14 +91,5 @@ public class MysqlDatabase {
     // ExecutorService 종료
     public void shutdown() {
         executor.shutdown();
-        try {
-            if (!executor.awaitTermination(10, TimeUnit.SECONDS)) {
-                logger.warn("DB executor did not terminate within timeout, forcing shutdown");
-                executor.shutdownNow();
-            }
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-            executor.shutdownNow();
-        }
     }
 }

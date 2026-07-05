@@ -27,11 +27,7 @@ public class UserPrefixManager {
     }
 
     public CompletableFuture<Void> savePlayerPrefixData(UUID uuid) {
-        Set<Integer> prefixIDs = userPrefixes.get(uuid);
-        if (prefixIDs == null) {
-            return CompletableFuture.completedFuture(null);
-        }
-        return userPrefixesDAO.addPrefixes(uuid, prefixIDs);
+        return userPrefixesDAO.addPrefixes(uuid, userPrefixes.get(uuid));
     }
 
     public boolean hasPrefix(UUID uuid, int id) {
