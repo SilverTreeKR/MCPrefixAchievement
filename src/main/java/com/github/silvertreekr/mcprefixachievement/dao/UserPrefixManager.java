@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class UserPrefixManager {
     private final UserPrefixesDAO userPrefixesDAO;
@@ -15,11 +16,12 @@ public class UserPrefixManager {
         this.userPrefixesDAO = userPrefixesDAO;
     }
 
-    public void loadPlayerPrefixData(UUID uuid) {
-        userPrefixesDAO.getPrefixIDs(uuid).thenAccept(integers -> {
+    public CompletableFuture<Void> loadPlayerPrefixData(UUID uuid) {
+        return userPrefixesDAO.getPrefixIDs(uuid).thenAccept(integers -> {
             userPrefixes.put(uuid, integers);
         });
     }
+
     public void unloadPlayerPrefixData(UUID uuid) {
         userPrefixes.remove(uuid);
     }

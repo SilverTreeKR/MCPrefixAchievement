@@ -5,6 +5,7 @@ import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
 public class UserStatsManager {
     private final UserStatsDAO userStatsDAO;
@@ -14,8 +15,8 @@ public class UserStatsManager {
         this.userStatsDAO = userStatsDAO;
     }
 
-    public void loadPlayerStatsData(UUID uuid) {
-        userStatsDAO.getPlayerStats(uuid).thenAccept(prefixStatIntegerMap -> {
+    public CompletableFuture<Void> loadPlayerStatsData(UUID uuid) {
+        return userStatsDAO.getPlayerStats(uuid).thenAccept(prefixStatIntegerMap -> {
             for (PrefixStat prefixStat: PrefixStat.values()) {
                 if (prefixStatIntegerMap.containsKey(prefixStat)) {
                     continue;
@@ -25,6 +26,7 @@ public class UserStatsManager {
             userStats.put(uuid, prefixStatIntegerMap);
         });
     }
+
     public void unloadPlayerStatsData(UUID uuid) {
         userStats.remove(uuid);
     }
