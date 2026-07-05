@@ -48,7 +48,7 @@ public class PlayerInteractEntityEventListener implements Listener {
         int prefixID = -1;
         if (event.getRightClicked() instanceof AreaEffectCloud enetity) {
             ItemStack bottle = event.getPlayer().getInventory().getItem(event.getHand());
-            if (bottle.getType().equals(Material.GLASS_BOTTLE)) {
+            if (bottle != null && bottle.getType().equals(Material.GLASS_BOTTLE)) {
 
                 if (enetity.getParticle().equals(Particle.DRAGON_BREATH)) {
                     int count = statsManager.getStatValue(uuid, PrefixStat.GET_DRAGON_BREATH);
