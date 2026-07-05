@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.command;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
+import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -29,7 +30,11 @@ public class HammerOnCommnad extends BukkitCommand {
             return false;
         }
         if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), 7)) {
-            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(7).getDisplayPrefix()));
+            Prefix prefix = MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(7);
+            if (prefix == null) {
+                return false;
+            }
+            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
 
             return false;
         }
