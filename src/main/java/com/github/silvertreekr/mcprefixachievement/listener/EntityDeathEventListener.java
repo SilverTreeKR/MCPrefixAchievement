@@ -38,6 +38,7 @@ public class EntityDeathEventListener implements Listener {
                     prefixID = 6;
                 }
                 PrefixGranter.grantPrefix(player, prefixID);
+                PrefixGranter.broadcastPrefix(player, prefixID);
             }
         }
     }
