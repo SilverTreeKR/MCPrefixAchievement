@@ -26,7 +26,7 @@ public class PrefixCommand extends BukkitCommand {
         // /칭호 -> 칭호 명령어들 반환
         if (args.length == 0) {
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>사용 가능한 명령어:");
-            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/칭호 정보 [칭호명] - 특정 칭호의 정보를 확인합니다.");
+            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/칭호 정보 [칭호ID] - 특정 칭호의 정보를 확인합니다.");
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/칭호 목록 [페이지] - 칭호들의 목록을 확인합니다.");
             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>/[칭호명] - 특정 칭호의 특수 효과를 부여받습니다. (공백 없이 입력)");
             return true;
