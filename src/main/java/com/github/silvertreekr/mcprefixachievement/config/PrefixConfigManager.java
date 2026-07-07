@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.config;
 
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -46,8 +47,9 @@ public class PrefixConfigManager {
         return Collections.unmodifiableSortedMap(prefixMap);
     }
 
-    public @Nullable Prefix getPrefixById(int id) {
-        return prefixMap.get(id);
+    public @Nullable Prefix getPrefixById(PrefixName id) {
+        int prefixIndex = id.getPrefixIndex();
+        return prefixMap.get(prefixIndex);
     }
 
     public boolean existsPrefix(int id) {

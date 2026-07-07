@@ -9,15 +9,15 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.UUID;
 
 public class PlayerQuitEventListener implements Listener {
-
-    public PlayerQuitEventListener(JavaPlugin plugin) {
+    private final MCPrefixAchievement plugin;
+    public PlayerQuitEventListener(MCPrefixAchievement plugin) {
+        this.plugin = plugin;
         plugin.getServer().getPluginManager().registerEvents(this, plugin);
     }
 
     @EventHandler
     public void onPlayerQuit(PlayerQuitEvent event) {
         UUID uuid = event.getPlayer().getUniqueId();
-        MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
 
         // save database & unload from Cache (PlayerPrefixData)
         plugin.getUserPrefixManager().savePlayerPrefixData(uuid);

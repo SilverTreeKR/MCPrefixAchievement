@@ -1,69 +1,58 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
-import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
-public class EntityDeathEventListener implements Listener {
-    private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserStatsManager statsManager = plugin.getUserStatsManager();
+public class EntityDeathEventListener extends AbstractPrefixListener {
+    private static final int DRAGON_SLAYER_REQUIRED_VALUE = 1;
+    private static final int HAMMER_ON_REQUIRED_VALUE = 1;
 
-    public EntityDeathEventListener(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public EntityDeathEventListener(MCPrefixAchievement plugin) {
+        super(plugin);
     }
 
     @EventHandler
     public void onEnderDragonDeath(EntityDeathEvent event) {
-        int prefixID = -1;
+        if (event.getEntityType() != EntityType.ENDER_DRAGON || event.getEntity().getKiller() == null) {
+            return;
+        }
 
-        if (event.getEntityType().equals(EntityType.ENDER_DRAGON)) {
-            if (event.getEntity().getKiller() != null) {
-                Player player = event.getEntity().getKiller();
-                UUID uuid = player.getUniqueId();
-                int count = statsManager.getStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON);
-                count++;
-                statsManager.setStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON, count);
-                if (count == 1) {
-                    // 용살자
-                    prefixID = 6;
-                }
-                PrefixGranter.grantPrefix(player, prefixID);
-                PrefixGranter.broadcastPrefix(player, prefixID);
-            }
+        Player player = event.getEntity().getKiller();
+        UUID uuid = player.getUniqueId();
+        int count = increaseStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON);
+
+        if (count == DRAGON_SLAYER_REQUIRED_VALUE) {
+            PrefixGranter.grantPrefix(player, PrefixName.DRAGON_SLAYER);
+            PrefixGranter.broadcastPrefix(player, PrefixName.DRAGON_SLAYER);
         }
     }
 
     @EventHandler
     public void onEndermandDeath(EntityDeathEvent event) {
-        int prefixID = -1;
+        if (event.getEntityType() != EntityType.ENDERMAN || event.getEntity().getKiller() == null) {
+            return;
+        }
 
-        if (event.getEntityType().equals(EntityType.ENDERMAN)) {
-            if (event.getEntity().getKiller() != null) {
-                Player player = event.getEntity().getKiller();
-                UUID uuid = player.getUniqueId();
-                Player killer = event.getEntity().getKiller();
-                boolean killedWithMace = killer.getInventory().getItemInMainHand().getType().equals(Material.MACE);
-                if (killedWithMace) {
-                    int count = statsManager.getStatValue(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
-                    count++;
-                    statsManager.setStatValue(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE, count);
-                    if (count == 1) {
-                        // 망치 나가신다
-                        prefixID = 7;
-                    }
-                }
-                PrefixGranter.grantPrefix(player, prefixID);
-            }
+        Player player = event.getEntity().getKiller();
+        UUID uuid = player.getUniqueId();
+        boolean killedWithMace = player.getInventory().getItemInMainHand().getType().equals(Material.MACE);
+
+        if (!killedWithMace) {
+            return;
+        }
+
+        int count = increaseStatValue(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
+        if (count == HAMMER_ON_REQUIRED_VALUE) {
+            PrefixGranter.grantPrefix(player, PrefixName.HAMMER_ON);
         }
     }
 }

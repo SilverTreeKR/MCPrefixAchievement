@@ -3,6 +3,7 @@ package com.github.silvertreekr.mcprefixachievement.command;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -42,8 +43,8 @@ public class PrefixCommand extends BukkitCommand {
                 }
                 if (args.length == 2) {
                     try {
-                        int prefixId = Integer.parseInt(args[1]);
-                        Prefix prefix = prefixConfigManager.getPrefixById(prefixId);
+                        PrefixName prefixName = PrefixName.getPrefixByIndex(Integer.parseInt(args[1]));
+                        Prefix prefix = prefixConfigManager.getPrefixById(prefixName);
 
                         if (prefix == null) {
                             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><red>올바르지 않은 칭호 ID입니다.");
@@ -57,7 +58,7 @@ public class PrefixCommand extends BukkitCommand {
                         }
                         sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>");
 
-                        if (MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), prefixId)) {
+                        if (MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), prefixName)) {
                             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>현재 이 칭호를 <bold><green>보유<reset>하고 있습니다.");
                         } else {
                             sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>현재 이 칭호를 <bold><red>미보유<reset>하고 있습니다.");

@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.dao;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -34,21 +35,23 @@ public class UserPrefixManager {
         return userPrefixesDAO.addPrefixes(uuid, userPrefixes.get(uuid));
     }
 
-    public boolean hasPrefix(UUID uuid, int id) {
+    public boolean hasPrefix(UUID uuid, PrefixName id) {
         Set<Integer> prefixIDs = userPrefixes.get(uuid);
+        int prefixIndex = id.getPrefixIndex();
         if (prefixIDs == null) {
             return false;
         }
-        return prefixIDs.contains(id);
+        return prefixIDs.contains(prefixIndex);
     }
 
-    public void addPrefix(UUID uuid, int id) {
-        if (!(MCPrefixAchievement.getInstance().getPrefixConfigManager().existsPrefix(id))) {
+    public void addPrefix(UUID uuid, PrefixName id) {
+        int prefixIndex = id.getPrefixIndex();
+        if (!(MCPrefixAchievement.getInstance().getPrefixConfigManager().existsPrefix(prefixIndex))) {
             throw new IllegalArgumentException("Can't find for prefix by id: Invalid ID");
         }
         HashSet<Integer> prefixes = new HashSet<>(userPrefixes.getOrDefault(uuid, Set.of()));
 
-        prefixes.add(id);
+        prefixes.add(prefixIndex);
         userPrefixes.put(uuid, prefixes);
     }
 }

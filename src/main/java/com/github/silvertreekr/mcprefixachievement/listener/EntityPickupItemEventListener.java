@@ -2,6 +2,7 @@ package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import org.bukkit.Material;
@@ -14,30 +15,25 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
-public class EntityPickupItemEventListener implements Listener {
-    private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserStatsManager statsManager = plugin.getUserStatsManager();
-
-    public EntityPickupItemEventListener(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+public class EntityPickupItemEventListener extends AbstractPrefixListener {
+    private static final int HOME_WRECKER_REQUIRED_VALUE = 1;
+    public EntityPickupItemEventListener(MCPrefixAchievement plugin) {
+        super(plugin);
     }
 
     @EventHandler
     public void onPlayerPickUpDragonEgg(EntityPickupItemEvent event) {
-        if (event.getEntity() instanceof Player player){
-            UUID uuid = event.getEntity().getUniqueId();
-            int prefixID = -1;
-
-            if (event.getItem().getItemStack().getType().equals(Material.DRAGON_EGG)) {
-                int count = statsManager.getStatValue(uuid, PrefixStat.GET_DRAGON_EGG);
-                count++;
-                statsManager.setStatValue(uuid, PrefixStat.GET_DRAGON_EGG, count);
-                if (count == 1) {
-                    prefixID = 12;
-                    player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
-                }
-            }
-            PrefixGranter.grantPrefix(player, prefixID);
+        if (!(event.getEntity() instanceof  Player player)) {
+            return;
+        }
+        if (event.getItem().getItemStack().getType() != Material.DRAGON_EGG) {
+            return;
+        }
+        UUID uuid = event.getEntity().getUniqueId();
+        int count = increaseStatValue(uuid, PrefixStat.GET_DRAGON_EGG);
+        if (count == HOME_WRECKER_REQUIRED_VALUE) {
+            player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
+            PrefixGranter.grantPrefix(player, PrefixName.HOME_WRECKER);
         }
     }
 }

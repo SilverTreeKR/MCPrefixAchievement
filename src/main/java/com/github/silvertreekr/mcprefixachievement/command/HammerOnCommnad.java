@@ -2,6 +2,7 @@ package com.github.silvertreekr.mcprefixachievement.command;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -29,8 +30,8 @@ public class HammerOnCommnad extends BukkitCommand {
         if (!(sender instanceof Player player)) {
             return false;
         }
-        if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), 7)) {
-            Prefix prefix = MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(7);
+        if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), PrefixName.HAMMER_ON)) {
+            Prefix prefix = MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(PrefixName.HAMMER_ON);
             if (prefix == null) {
                 return false;
             }

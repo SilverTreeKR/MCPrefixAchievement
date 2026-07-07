@@ -2,6 +2,7 @@ package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
+import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.Component;
@@ -20,22 +21,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.UUID;
 
-public class PlayerGetDragonBreathEventListener implements Listener {
-    private final MCPrefixAchievement plugin = MCPrefixAchievement.getInstance();
-    private final UserStatsManager statsManager = plugin.getUserStatsManager();
+public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
+    private static final int DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE = 1;
 
-    private int countDragonBreath(Player player) {
-        int total = 0;
-        for (ItemStack stack : player.getInventory().getContents()) {
-            if (stack != null && stack.getType() == Material.DRAGON_BREATH) {
-                total += stack.getAmount();
-            }
-        }
-        return total;
-    }
-
-    public PlayerGetDragonBreathEventListener(JavaPlugin plugin) {
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    public PlayerGetDragonBreathEventListener(MCPrefixAchievement plugin) {
+        super(plugin);
     }
 
     @EventHandler
@@ -51,7 +41,7 @@ public class PlayerGetDragonBreathEventListener implements Listener {
 
         Player player = event.getPlayer();
         ItemStack itemBefore = player.getInventory().getItem(hand);
-        if (!itemBefore.getType().equals(Material.GLASS_BOTTLE)) {
+        if (itemBefore.getType() != Material.GLASS_BOTTLE) {
             return;
         }
 
@@ -69,22 +59,31 @@ public class PlayerGetDragonBreathEventListener implements Listener {
                 return;
             }
 
-            int count = statsManager.getStatValue(uuid, PrefixStat.GET_DRAGON_BREATH);
-            count++;
-            statsManager.setStatValue(uuid, PrefixStat.GET_DRAGON_BREATH, count);
+            int count = increaseStatValue(uuid, PrefixStat.GET_DRAGON_BREATH);
 
-            int prefixID = -1;
-            if (count == 1) {
-                prefixID = 11;
-                ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
-                ItemMeta itemMeta = dragonBreath.getItemMeta();
-                itemMeta.customName(Component.text("용의 콧물").decoration(TextDecoration.ITALIC, false));
-                dragonBreath.setItemMeta(itemMeta);
-                dragonBreath.setAmount(1);
-
-                player.give(dragonBreath);
+            if (count == DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE) {
+                player.give(createDragonBreathReward());
+                PrefixGranter.grantPrefix(player, PrefixName.DRAGON_RUNNY_NOSE_THIEF);
             }
-            PrefixGranter.grantPrefix(player, prefixID);
         });
+    }
+
+    private int countDragonBreath(Player player) {
+        int total = 0;
+        for (ItemStack stack : player.getInventory().getContents()) {
+            if (stack != null && stack.getType() == Material.DRAGON_BREATH) {
+                total += stack.getAmount();
+            }
+        }
+        return total;
+    }
+
+    private ItemStack createDragonBreathReward() {
+        ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
+        ItemMeta itemMeta = dragonBreath.getItemMeta();
+        itemMeta.customName(Component.text("용의 콧물").decoration(TextDecoration.ITALIC, false));
+        dragonBreath.setItemMeta(itemMeta);
+        dragonBreath.setAmount(1);
+        return dragonBreath;
     }
 }
