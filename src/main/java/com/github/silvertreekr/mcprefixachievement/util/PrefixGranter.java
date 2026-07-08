@@ -25,7 +25,11 @@ public class PrefixGranter {
         UUID uuid = player.getUniqueId();
         Prefix prefix = prefixConfigManager.getPrefixById(prefixName);
 
-        if (prefix == null || prefixManager.hasPrefix(uuid, prefixName)) {
+        if (prefix == null) {
+            plugin.getSLF4JLogger().warn("Failed to grant prefix {}: prefix not found in config (still not loaded?)", prefixName);
+            return;
+        }
+        if (prefixManager.hasPrefix(uuid, prefixName)) {
             return;
         }
         if (prefixName == PrefixName.NONE) {
