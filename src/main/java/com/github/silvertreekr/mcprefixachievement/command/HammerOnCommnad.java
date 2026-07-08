@@ -35,13 +35,13 @@ public class HammerOnCommnad extends BukkitCommand {
             if (prefix == null) {
                 return false;
             }
-            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
+            sender.sendRichMessage("<bold>【 칭호 】 <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
 
             return false;
         }
         if (args.length != 0) {
-            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><red>올바르지 않은 명령어입니다.");
-            sender.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>올바른 사용법: /[칭호명]");
+            sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 명령어입니다.");
+            sender.sendRichMessage("<bold>【 칭호 】 <reset>올바른 사용법: /[칭호명]");
 
             return false;
         }
@@ -54,14 +54,14 @@ public class HammerOnCommnad extends BukkitCommand {
             if (minutesPassed < 60) {
                 long minutesLeft = 60 - minutesPassed;
 
-                player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", String.valueOf(minutesLeft)));
+                player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", String.valueOf(minutesLeft)));
                 return true;
             }
         }
         lastExecutions.put(player.getUniqueId(), nowTime);
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.JUMP_BOOST, 20*60*3, 0));
-        player.sendRichMessage("<bold>[ 칭호 시스템 ] <reset><aqua>점프 강화 효과<reset>가 적용되었습니다 !");
+        player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>점프 강화 효과<reset>가 적용되었습니다 !");
 
         return true;
     }
