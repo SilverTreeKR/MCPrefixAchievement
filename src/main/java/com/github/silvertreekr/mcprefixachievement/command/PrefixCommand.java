@@ -39,7 +39,7 @@ public class PrefixCommand extends BukkitCommand {
             if (!sender.isOp()) {
                 return true;
             }
-            sender.sendRichMessage("<bold>【 칭호 】 --------------------------------------------------------");
+            sender.sendRichMessage("<bold>【 칭호 】 -------------------------------------------");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>/칭호 지급 [대상 플레이어] [칭호ID] ");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>- 대상 플레이어에게 칭호를 지급합니다.");
             return true;

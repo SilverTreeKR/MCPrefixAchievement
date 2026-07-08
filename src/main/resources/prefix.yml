@@ -71,8 +71,8 @@
     description: "첫 드래곤 알 획득"
     reward: "마법이 부여된 횡금사과 1개"
 13:
-    display-name: "<#664400><bold>【 <gradient:#FFFFBB:#FFFFFF:#FFFFBB>전기세 담당</gradient> 】</bold></#664400>"
+    display-name: "<#664400><bold>【<gradient:#FFFFBB:#FFFFFF:#FFFFBB>전기세 담당</gradient>】</bold></#664400>"
     required-stat: "NONE"
     required-stat-value: 0
     description: "나무에게 커피 후원하기"
-    reward: "장식 블럭이 담긴 개별 쿠폰 코드 (후원자 선물 상자 1개, 개별 전용 상자 1개)"
+    reward: "장식 블럭이 담긴 개별 쿠폰 코드"
