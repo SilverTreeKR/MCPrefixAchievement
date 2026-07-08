@@ -4,7 +4,10 @@ import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
+import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Bukkit;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
@@ -126,6 +129,54 @@ public class PrefixCommand extends BukkitCommand {
                         player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
                         return false;
                     }
+                }
+            }
+            case "지급" -> {
+                if (args.length < 3) {
+                    sender.sendRichMessage("<bold>【 칭호 】 <reset>사용법: /칭호 지급 [대상 플레이어] [칭호ID]");
+                    if (!(sender instanceof Player player)) {
+                        return false;
+                    }
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+                    return false;
+                }
+                Player target = Bukkit.getPlayer(args[1]);
+                if (target == null) {
+                    sender.sendRichMessage("<bold>【 칭호 】 <reset><red>온라인 상태인 플레이어가 아닙니다.");
+                    if (!(sender instanceof Player player)) {
+                        return false;
+                    }
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+                    return false;
+                }
+                try {
+                    PrefixName prefixName = PrefixName.getPrefixByIndex(Integer.parseInt(args[2]));
+                    Prefix prefix = prefixConfigManager.getPrefixById(prefixName);
+
+                    if (prefix == null) {
+                        sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 칭호 ID입니다.");
+                        return false;
+                    }
+
+                    PrefixGranter.grantPrefix(target, prefixName);
+                    sender.sendRichMessage(
+                            "<bold>【 칭호 】 <reset><target>님께 <prefix> 칭호를 지급했습니다.",
+                            Placeholder.component("target", Component.text(target.getName())),
+                            Placeholder.component("prefix", prefix.getDisplayPrefix())
+                    );
+                    if (!(sender instanceof Player player)) {
+                        return true;
+                    }
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
+                    return true;
+
+                } catch (NumberFormatException e) {
+                    sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 칭호 ID입니다.");
+                    if (!(sender instanceof Player player)) {
+                        return false;
+                    }
+                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+                    return false;
                 }
             }
             default -> {
