@@ -16,7 +16,8 @@ public enum PrefixName {
     PRO_WORKER(9),
     I_AM_GAUDI(10),
     DRAGON_RUNNY_NOSE_THIEF(11),
-    HOME_WRECKER(12)
+    HOME_WRECKER(12),
+    PATRON(13)
     ;
 
     private final int index;

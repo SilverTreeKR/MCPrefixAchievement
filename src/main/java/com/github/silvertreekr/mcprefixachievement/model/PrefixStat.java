@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.model;
 
 public enum PrefixStat {
+    NONE,
     ANY_DEATH_COUNT,
     BREAK_BLOCK,
     BREAK_DIAMOND_ORE,
