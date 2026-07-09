@@ -13,8 +13,12 @@ import org.bukkit.event.entity.EntityDeathEvent;
 import java.util.UUID;
 
 public class EntityDeathEventListener extends AbstractPrefixListener {
-    private static final int DRAGON_SLAYER_REQUIRED_VALUE = 1;
-    private static final int HAMMER_ON_REQUIRED_VALUE = 1;
+    private final int DRAGON_SLAYER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.DRAGON_SLAYER)
+            .getRequiredStatValue();
+    private final int HAMMER_ON_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.HAMMER_ON)
+            .getRequiredStatValue();
 
     public EntityDeathEventListener(MCPrefixAchievement plugin) {
         super(plugin);

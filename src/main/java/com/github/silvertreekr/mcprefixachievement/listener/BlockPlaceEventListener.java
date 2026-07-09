@@ -15,8 +15,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class BlockPlaceEventListener extends AbstractPrefixListener {
-    private static final int BUILDER_REQUIRED_VALUE = 5000;
-    private static final int GAUDI_REQUIRED_VALUE = 50000;
+    private final int BUILDER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.BUILDER)
+            .getRequiredStatValue();
+    private final int GAUDI_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.I_AM_GAUDI)
+            .getRequiredStatValue();
 
     public BlockPlaceEventListener(MCPrefixAchievement plugin) {
         super(plugin);

@@ -18,12 +18,12 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class PlayerJoinEventListener implements Listener {
-    private final MCPrefixAchievement plugin;
-
+public class PlayerJoinEventListener extends AbstractPrefixListener {
+    private final int FIRST_STEP_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.FIRST_STEP)
+            .getRequiredStatValue();
     public PlayerJoinEventListener(MCPrefixAchievement plugin) {
-        this.plugin = plugin;
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+        super(plugin);
     }
 
     @EventHandler
@@ -45,9 +45,8 @@ public class PlayerJoinEventListener implements Listener {
                     return; // 로드되는 사이 플레이어가 이미 퇴장했으면 아무것도 하지 않음
                 }
 
-                if (statsManager.getStatValue(uuid, PrefixStat.FIRST_JOIN) == 0) {
-                    statsManager.setStatValue(uuid, PrefixStat.FIRST_JOIN, 1);
-
+                int count = increaseStatValue(uuid, PrefixStat.FIRST_JOIN);
+                if (count == FIRST_STEP_REQUIRED_VALUE) {
                     player.give(createFirstStepReward());
                     PrefixGranter.grantPrefix(player, PrefixName.FIRST_STEP);
                 }

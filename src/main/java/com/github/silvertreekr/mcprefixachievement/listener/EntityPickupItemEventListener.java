@@ -20,8 +20,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class EntityPickupItemEventListener extends AbstractPrefixListener {
-    private static final int HOME_WRECKER_REQUIRED_VALUE = 1;
-    private static final int KOPI_LUWAK_REQUIRED_VALUE = 1;
+    private final int HOME_WRECKER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.HOME_WRECKER)
+            .getRequiredStatValue();
+    private final int KOPI_LUWAK_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.KOPI_LUWAK)
+            .getRequiredStatValue();
     public EntityPickupItemEventListener(MCPrefixAchievement plugin) {
         super(plugin);
     }

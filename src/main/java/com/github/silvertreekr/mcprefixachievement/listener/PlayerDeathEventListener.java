@@ -22,9 +22,15 @@ import java.util.List;
 import java.util.UUID;
 
 public class PlayerDeathEventListener extends AbstractPrefixListener {
-    private static final int DEATH_REJECTOR_REQUIRED_VALUE = 1;
-    private static final int LAVA_CHICKEN_REQUIRED_VALUE = 1;
-    private static final int WANT_TO_BE_KAISA_REQUIRED_VALUE = 1;
+    private final int DEATH_REJECTOR_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.DEATH_REJECTOR)
+            .getRequiredStatValue();
+    private final int LAVA_CHICKEN_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.LAVA_CHICKEN)
+            .getRequiredStatValue();
+    private final int WANT_TO_BE_KAISA_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.WANT_TO_BE_KAISA)
+            .getRequiredStatValue();
 
     public PlayerDeathEventListener(MCPrefixAchievement plugin) {
         super(plugin);

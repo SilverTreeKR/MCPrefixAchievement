@@ -19,7 +19,9 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.UUID;
 
 public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
-    private static final int DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE = 1;
+    private final int DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.DRAGON_RUNNY_NOSE_THIEF)
+            .getRequiredStatValue();
 
     public PlayerGetDragonBreathEventListener(MCPrefixAchievement plugin) {
         super(plugin);

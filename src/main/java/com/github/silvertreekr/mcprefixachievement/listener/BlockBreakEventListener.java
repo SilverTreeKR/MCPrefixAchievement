@@ -19,8 +19,12 @@ import java.util.List;
 import java.util.UUID;
 
 public class BlockBreakEventListener extends AbstractPrefixListener { ;
-    private static final int PRO_WORKER_REQUIRED_VALUE = 10000;
-    private static final int JEWELLERY_COLLECTOR_VALUE = 1;
+    private final int PRO_WORKER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.PRO_WORKER)
+            .getRequiredStatValue();
+    private final int JEWELLERY_COLLECTOR_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.JEWELLERY_COLLECTOR)
+            .getRequiredStatValue();
 
 
     public BlockBreakEventListener(MCPrefixAchievement plugin) {
