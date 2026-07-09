@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
+import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
@@ -30,9 +31,11 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     public void onPlayerBreakAnyBlock(BlockBreakEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
-
+        UserPrefixManager prefixManager = plugin.getUserPrefixManager();
         int count = increaseStatValue(uuid, PrefixStat.BREAK_BLOCK);
-        if (count == PRO_WORKER_REQUIRED_VALUE) {
+
+        // 전문 노가다꾼
+        if (count >= PRO_WORKER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.PRO_WORKER)) {
             player.give(List.of(createProWorkerReward()));
             PrefixGranter.grantPrefix(player, PrefixName.PRO_WORKER);
         }

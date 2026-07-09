@@ -1,6 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
+import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
@@ -25,13 +26,18 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
     public void onPlayerPlaceAnyBlock(BlockPlaceEvent event) {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
+        UserPrefixManager prefixManager = plugin.getUserPrefixManager();
 
         int count = increaseStatValue(uuid, PrefixStat.PLACE_BLOCK);
 
-        if (count == BUILDER_REQUIRED_VALUE) {
+        // 건축가
+        if (count >= BUILDER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.BUILDER)) {
             player.give(List.of(new ItemStack(Material.SCAFFOLDING, 64)));
             PrefixGranter.grantPrefix(player, PrefixName.BUILDER);
-        } else if (count == GAUDI_REQUIRED_VALUE) {
+        }
+
+        // 내가 바로 가우디
+        if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
             player.give(List.of(new ItemStack(Material.SPONGE, 5)));
             PrefixGranter.grantPrefix(player, PrefixName.I_AM_GAUDI);
         }
