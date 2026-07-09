@@ -76,3 +76,9 @@
     required-stat-value: 0
     description: "나무에게 커피 후원하기"
     reward: "장식 블럭이 담긴 개별 쿠폰 코드"
+14:
+    display-name: "루왁 커피"
+    required-stat: "GET_COCOA_BEANS"
+    required-stat-value: 1
+    description: "첫 코코아 콩 획득"
+    reward: "잘못 내린 커피"

@@ -13,5 +13,6 @@ public enum PrefixStat {
     LAVA_DEATH_COUNT,
     PLACE_BLOCK,
     VOID_DEATH_COUNT,
+    GET_COCOA_BEANS
     ;
 }
