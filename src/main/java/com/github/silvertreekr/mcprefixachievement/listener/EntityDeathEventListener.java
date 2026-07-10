@@ -19,14 +19,16 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
     private final int HAMMER_ON_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.HAMMER_ON)
             .getRequiredStatValue();
-
+    private final int THE_THIEF_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.THE_THIEF)
+            .getRequiredStatValue();
     public EntityDeathEventListener(MCPrefixAchievement plugin) {
         super(plugin);
     }
 
     @EventHandler
     public void onEnderDragonDeath(EntityDeathEvent event) {
-        if (event.getEntityType() != EntityType.ENDER_DRAGON || event.getEntity().getKiller() == null) {
+        if (!isEnderDragonKilledByPlayer(EntityType.ENDER_DRAGON, event.getEntity().getKiller())) {
             return;
         }
 
@@ -43,7 +45,7 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
 
     @EventHandler
     public void onEndermandDeath(EntityDeathEvent event) {
-        if (event.getEntityType() != EntityType.ENDERMAN || event.getEntity().getKiller() == null) {
+        if (!isEndermanKilledByPlayer(event.getEntityType(), event.getEntity().getKiller())) {
             return;
         }
 
@@ -55,10 +57,39 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
             return;
         }
 
-        // 망치 나가신다
         int count = increaseStatValue(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
+
+        // 망치 나가신다
         if (count == HAMMER_ON_REQUIRED_VALUE) {
             PrefixGranter.grantPrefix(player, PrefixName.HAMMER_ON);
         }
+    }
+
+    @EventHandler
+    public void onWanderingTraderDeath(EntityDeathEvent event) {
+        if (!isWanderingTraderKilledByPlayer(event.getEntityType(), event.getEntity().getKiller())) {
+            return;
+        }
+
+        Player player = event.getEntity().getKiller();
+        UUID uuid = player.getUniqueId();
+        int count = increaseStatValue(uuid, PrefixStat.KILL_WANDERING_TRADER);
+
+        // 도적
+        if (count == THE_THIEF_REQUIRED_VALUE) {
+            PrefixGranter.grantPrefix(player, PrefixName.THE_THIEF);
+        }
+    }
+
+    private boolean isEnderDragonKilledByPlayer(EntityType entityType, Player player) {
+        return entityType == EntityType.ENDER_DRAGON || player != null;
+    }
+
+    private boolean isEndermanKilledByPlayer(EntityType entityType, Player player) {
+        return entityType == EntityType.ENDERMAN || player != null;
+    }
+
+    private boolean isWanderingTraderKilledByPlayer(EntityType entityType, Player player) {
+        return entityType == EntityType.WANDERING_TRADER || player != null;
     }
 }
