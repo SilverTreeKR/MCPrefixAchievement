@@ -94,3 +94,9 @@
     required-stat-value: 3
     description: "떠돌이 상인 3마리 처치"
     reward: "신속 명령어(쿨타임 3시간, 지속시간 10분)"
+17:
+    display-name: "봄버맨"
+    required-stat: "PLACE_TNT"
+    required-stat-value: "1"
+    description: "TNT 1개 설치"
+    reward: "없음"
