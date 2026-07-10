@@ -82,3 +82,9 @@
     required-stat-value: 1
     description: "첫 코코아 콩 획득"
     reward: "잘못 내린 커피"
+15:
+    display-name: "성냥팔이 소녀"
+    required-stat: "PLACE_REDSTONE_TORCH"
+    required-stat-value: 1
+    description: "레드스톤 횃불 1개 설치"
+    reward: "레드스톤 가루 64개"

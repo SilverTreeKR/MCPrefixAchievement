@@ -13,6 +13,7 @@ public enum PrefixStat {
     LAVA_DEATH_COUNT,
     PLACE_BLOCK,
     VOID_DEATH_COUNT,
-    GET_COCOA_BEANS
+    GET_COCOA_BEANS,
+    PLACE_REDSTONE_TORCH
     ;
 }
