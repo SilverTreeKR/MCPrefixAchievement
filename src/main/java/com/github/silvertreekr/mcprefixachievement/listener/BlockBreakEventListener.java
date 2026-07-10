@@ -22,7 +22,7 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     private final int PRO_WORKER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.PRO_WORKER)
             .getRequiredStatValue();
-    private final int JEWELLERY_COLLECTOR_VALUE = plugin.getPrefixConfigManager()
+    private final int JEWELLERY_COLLECTOR_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.JEWELLERY_COLLECTOR)
             .getRequiredStatValue();
 
@@ -56,7 +56,7 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
         int count = increaseStatValue(uuid, PrefixStat.BREAK_DIAMOND_ORE);
 
         // 보석 수집가
-        if (count == JEWELLERY_COLLECTOR_VALUE) {
+        if (count == JEWELLERY_COLLECTOR_REQUIRED_VALUE) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20 * 60 * 5, 0));
             PrefixGranter.grantPrefix(player, PrefixName.JEWELLERY_COLLECTOR);
         }
