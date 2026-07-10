@@ -24,6 +24,7 @@ public class HammerOnCommnad extends BukkitCommand {
     }
 
     private final HashMap<UUID, LocalDateTime> lastExecutions = new HashMap<>();
+    private final int COOLTIME = 60;
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String @NotNull [] args) {
@@ -51,8 +52,8 @@ public class HammerOnCommnad extends BukkitCommand {
             Duration duration = Duration.between(lastExecution, nowTime);
             long minutesPassed = duration.toMinutes();
 
-            if (minutesPassed < 60) {
-                long minutesLeft = 60 - minutesPassed;
+            if (minutesPassed < COOLTIME) {
+                long minutesLeft = COOLTIME - minutesPassed;
 
                 player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", String.valueOf(minutesLeft)));
                 return true;
