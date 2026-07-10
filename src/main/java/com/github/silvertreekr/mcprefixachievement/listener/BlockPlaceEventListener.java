@@ -21,6 +21,9 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
     private final int GAUDI_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.I_AM_GAUDI)
             .getRequiredStatValue();
+    private final int MATCH_GIRL_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.MATCH_GIRL)
+            .getRequiredStatValue();
 
     public BlockPlaceEventListener(MCPrefixAchievement plugin) {
         super(plugin);
@@ -44,6 +47,20 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
             player.give(List.of(new ItemStack(Material.SPONGE, 5)));
             PrefixGranter.grantPrefix(player, PrefixName.I_AM_GAUDI);
+        }
+    }
+
+    @EventHandler
+    public void onPlayerPlaceRedstoneTorch(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
+
+        int count = increaseStatValue(uuid, PrefixStat.PLACE_REDSTONE_TORCH);
+
+        // 성냥팔이 소녀
+        if (count == MATCH_GIRL_REQUIRED_VALUE) {
+            player.give(List.of(new ItemStack(Material.REDSTONE, 64)));
+            PrefixGranter.grantPrefix(player,PrefixName.MATCH_GIRL);
         }
     }
 }
