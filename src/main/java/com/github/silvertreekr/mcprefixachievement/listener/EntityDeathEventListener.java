@@ -34,6 +34,7 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
         UUID uuid = player.getUniqueId();
         int count = increaseStatValue(uuid, PrefixStat.KILL_ENDER_DRAGON);
 
+        // 용살자
         if (count == DRAGON_SLAYER_REQUIRED_VALUE) {
             PrefixGranter.grantPrefix(player, PrefixName.DRAGON_SLAYER);
             PrefixGranter.broadcastPrefix(player, PrefixName.DRAGON_SLAYER);
@@ -54,6 +55,7 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
             return;
         }
 
+        // 망치 나가신다
         int count = increaseStatValue(uuid, PrefixStat.KILL_ENDERMAN_BY_MACE);
         if (count == HAMMER_ON_REQUIRED_VALUE) {
             PrefixGranter.grantPrefix(player, PrefixName.HAMMER_ON);

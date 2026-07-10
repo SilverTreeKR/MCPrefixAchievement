@@ -40,6 +40,8 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
         }
         UUID uuid = player.getUniqueId();
         int count = increaseStatValue(uuid, PrefixStat.GET_DRAGON_EGG);
+
+        // 가정 파괴범
         if (count == HOME_WRECKER_REQUIRED_VALUE) {
             player.give(new ItemStack(Material.ENCHANTED_GOLDEN_APPLE, 1));
             PrefixGranter.grantPrefix(player, PrefixName.HOME_WRECKER);
@@ -56,6 +58,8 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
         }
         UUID uuid = player.getUniqueId();
         int count = increaseStatValue(uuid, PrefixStat.GET_COCOA_BEANS);
+
+        // 루왁커피
         if (count == KOPI_LUWAK_REQUIRED_VALUE) {
             player.give(createBadlyPouredCoffee());
             PrefixGranter.grantPrefix(player, PrefixName.KOPI_LUWAK);

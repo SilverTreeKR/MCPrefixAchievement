@@ -54,6 +54,8 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
             return;
         }
         int count = increaseStatValue(uuid, PrefixStat.BREAK_DIAMOND_ORE);
+
+        // 보석 수집가
         if (count == JEWELLERY_COLLECTOR_VALUE) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.HASTE, 20 * 60 * 5, 0));
             PrefixGranter.grantPrefix(player, PrefixName.JEWELLERY_COLLECTOR);

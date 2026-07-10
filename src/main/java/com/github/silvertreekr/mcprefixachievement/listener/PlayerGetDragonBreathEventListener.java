@@ -60,6 +60,7 @@ public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
 
             int count = increaseStatValue(uuid, PrefixStat.GET_DRAGON_BREATH);
 
+            // 용의 콧물 도둑
             if (count == DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE) {
                 player.give(createDragonBreathReward());
                 PrefixGranter.grantPrefix(player, PrefixName.DRAGON_RUNNY_NOSE_THIEF);

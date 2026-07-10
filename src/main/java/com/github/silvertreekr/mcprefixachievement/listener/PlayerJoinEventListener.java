@@ -46,6 +46,8 @@ public class PlayerJoinEventListener extends AbstractPrefixListener {
                 }
 
                 int count = increaseStatValue(uuid, PrefixStat.FIRST_JOIN);
+
+                // 첫걸음
                 if (count == FIRST_STEP_REQUIRED_VALUE) {
                     player.give(createFirstStepReward());
                     PrefixGranter.grantPrefix(player, PrefixName.FIRST_STEP);

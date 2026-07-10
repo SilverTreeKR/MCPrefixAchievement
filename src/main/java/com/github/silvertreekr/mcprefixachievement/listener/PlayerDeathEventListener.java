@@ -42,6 +42,7 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         UUID uuid = player.getUniqueId();
         int count = increaseStatValue(uuid, PrefixStat.ANY_DEATH_COUNT);
 
+        // 죽음을 거부하는 자
         if (count == DEATH_REJECTOR_REQUIRED_VALUE) {
             PrefixGranter.grantPrefix(player, PrefixName.DEATH_REJECTOR);
         }
@@ -57,6 +58,8 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         }
 
         int count = increaseStatValue(uuid, PrefixStat.LAVA_DEATH_COUNT);
+
+        // 라바 치킨
         if (count == LAVA_CHICKEN_REQUIRED_VALUE) {
             giveIfOnlineNextTick(player, createFireResistancePotion());
             PrefixGranter.grantPrefix(player, PrefixName.LAVA_CHICKEN);
