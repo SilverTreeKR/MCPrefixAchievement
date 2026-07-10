@@ -19,7 +19,8 @@ public enum PrefixName {
     HOME_WRECKER(12),
     PATRON(13),
     KOPI_LUWAK(14),
-    MATCH_GIRL(15)
+    MATCH_GIRL(15),
+    THE_THIEF(16)
     ;
 
     private final int index;
