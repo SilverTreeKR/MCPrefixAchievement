@@ -55,6 +55,10 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
+        if(!isRedStoneTorch(event.getBlock().getType())) {
+            return;
+        }
+
         int count = increaseStatValue(uuid, PrefixStat.PLACE_REDSTONE_TORCH);
 
         // 성냥팔이 소녀
@@ -62,5 +66,9 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
             player.give(List.of(new ItemStack(Material.REDSTONE, 64)));
             PrefixGranter.grantPrefix(player,PrefixName.MATCH_GIRL);
         }
+    }
+
+    private boolean isRedStoneTorch(Material material) {
+        return material == Material.REDSTONE_TORCH;
     }
 }
