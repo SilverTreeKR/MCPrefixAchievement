@@ -24,6 +24,9 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
     private final int MATCH_GIRL_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.MATCH_GIRL)
             .getRequiredStatValue();
+    private final int BOMBER_MAN_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.BOMBER_MAN)
+            .getRequiredStatValue();
 
     public BlockPlaceEventListener(MCPrefixAchievement plugin) {
         super(plugin);
@@ -55,7 +58,7 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         Player player = event.getPlayer();
         UUID uuid = player.getUniqueId();
 
-        if(!isRedStoneTorch(event.getBlock().getType())) {
+        if (!isRedStoneTorch(event.getBlock().getType())) {
             return;
         }
 
@@ -68,7 +71,28 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         }
     }
 
+    @EventHandler
+    public void onPlayerPlaceTnt(BlockPlaceEvent event) {
+        Player player = event.getPlayer();
+        UUID uuid = player.getUniqueId();
+
+        if (!isTnt(event.getBlock().getType())) {
+            return;
+        }
+
+        int count = increaseStatValue(uuid, PrefixStat.PLACE_TNT);
+
+        // 봄버맨
+        if (count == BOMBER_MAN_REQUIRED_VALUE) {
+            PrefixGranter.grantPrefix(player, PrefixName.BOMBER_MAN);
+        }
+    }
+
     private boolean isRedStoneTorch(Material material) {
         return material == Material.REDSTONE_TORCH;
+    }
+
+    private boolean isTnt(Material material) {
+        return material == Material.TNT;
     }
 }
