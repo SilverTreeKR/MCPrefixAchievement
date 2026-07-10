@@ -28,5 +28,6 @@ public enum PrefixStat {
     KILL_ENDERMAN_BY_MACE,
     KILL_ENDER_DRAGON,
     KILL_WANDERING_TRADER,
+    KILL_WARDEN,
     ;
 }

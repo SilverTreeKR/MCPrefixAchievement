@@ -22,6 +22,7 @@ public enum PrefixName {
     MATCH_GIRL(15),
     THE_THIEF(16),
     BOMBER_MAN(17),
+    DONT_MAKE_SOUND(18),
     ;
 
     private final int index;
