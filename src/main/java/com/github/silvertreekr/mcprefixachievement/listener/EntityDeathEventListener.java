@@ -22,6 +22,9 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
     private final int THE_THIEF_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.THE_THIEF)
             .getRequiredStatValue();
+    private final int DONT_MAKE_SOUND_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.DONT_MAKE_SOUND)
+            .getRequiredStatValue();
     public EntityDeathEventListener(MCPrefixAchievement plugin) {
         super(plugin);
     }
@@ -81,6 +84,23 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
         }
     }
 
+    @EventHandler
+    public void onWardenDeath(EntityDeathEvent event) {
+        if (!isWardenKilledByPlayer(event.getEntityType(), event.getEntity().getKiller())) {
+            return;
+        }
+
+        Player player = event.getEntity().getKiller();
+        UUID uuid = player.getUniqueId();
+        int count = increaseStatValue(uuid, PrefixStat.KILL_WARDEN);
+
+        // 발설 금지
+        if (count == DONT_MAKE_SOUND_REQUIRED_VALUE) {
+            PrefixGranter.grantPrefix(player, PrefixName.DONT_MAKE_SOUND);
+            PrefixGranter.broadcastPrefix(player, PrefixName.DONT_MAKE_SOUND);
+        }
+    }
+
     private boolean isEnderDragonKilledByPlayer(EntityType entityType, Player player) {
         return entityType == EntityType.ENDER_DRAGON || player != null;
     }
@@ -91,5 +111,9 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
 
     private boolean isWanderingTraderKilledByPlayer(EntityType entityType, Player player) {
         return entityType == EntityType.WANDERING_TRADER || player != null;
+    }
+
+    private boolean isWardenKilledByPlayer (EntityType entityType, Player player) {
+        return entityType == EntityType.WARDEN || player != null;
     }
 }
