@@ -6,6 +6,9 @@ import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -32,7 +35,6 @@ public class PrefixCommand extends BukkitCommand {
         // /칭호 -> 칭호 명령어들 반환
         if (args.length == 0) {
             sender.sendRichMessage("<bold>【 칭호 】 <reset>사용 가능한 명령어:");
-            sender.sendRichMessage("<bold>【 칭호 】 <reset>/칭호 정보 [칭호ID] - 특정 칭호의 정보를 확인합니다.");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>/칭호 목록 [페이지] - 칭호들의 목록을 확인합니다.");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>/[칭호명] - 특정 칭호의 특수 효과를 부여받습니다.");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>(공백 없이 입력)");
@@ -47,47 +49,6 @@ public class PrefixCommand extends BukkitCommand {
 
         PrefixConfigManager prefixConfigManager = MCPrefixAchievement.getInstance().getPrefixConfigManager();
         switch (args[0]) {
-            case "정보" -> {
-                if (args.length == 1) {
-                    sender.sendRichMessage("<bold>【 칭호 】 <reset>사용법: /칭호 정보 [칭호 ID]");
-                    if (!(sender instanceof Player player)) {
-                        return false;
-                    }
-                    player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
-                    return false;
-                }
-                if (args.length == 2) {
-                    try {
-                        PrefixName prefixName = PrefixName.getPrefixByIndex(Integer.parseInt(args[1]));
-                        Prefix prefix = prefixConfigManager.getPrefixById(prefixName);
-
-                        if (prefix == null) {
-                            sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 칭호 ID입니다.");
-                            return false;
-                        }
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset>칭호: <prefix>", Placeholder.component("prefix", prefix.getDisplayPrefix()));
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset>달성 조건: <description>", Placeholder.component("description", prefix.getDescription()));
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset>달성 보상: <reward>", Placeholder.component("reward", prefix.getReward()));
-                        if (!(sender instanceof Player player)) {
-                            return true;
-                        }
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset>");
-
-                        if (MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), prefixName)) {
-                            sender.sendRichMessage("<bold>【 칭호 】 <reset>현재 이 칭호를 <bold><green>보유<reset>하고 있습니다.");
-                        } else {
-                            sender.sendRichMessage("<bold>【 칭호 】 <reset>현재 이 칭호를 <bold><red>미보유<reset>하고 있습니다.");
-                        }
-                    } catch (NumberFormatException e) {
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 칭호 ID입니다.");
-                        if (!(sender instanceof  Player player)) {
-                            return false;
-                        }
-                        player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
-                        return false;
-                    }
-                }
-            }
             case "목록" -> {
                 SortedMap<Integer, Prefix> prefixMap = prefixConfigManager.getPrefixMap();
                 if (args.length == 1) {
