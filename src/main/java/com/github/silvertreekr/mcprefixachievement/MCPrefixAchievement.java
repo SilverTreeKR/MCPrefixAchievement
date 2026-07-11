@@ -1,9 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement;
 
-import com.github.silvertreekr.mcprefixachievement.command.DontMakeSoundCommand;
-import com.github.silvertreekr.mcprefixachievement.command.HammerOnCommnad;
-import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
-import com.github.silvertreekr.mcprefixachievement.command.TheThiefCommand;
+import com.github.silvertreekr.mcprefixachievement.command.*;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
@@ -72,6 +69,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
         new HammerOnCommnad(this);
         new TheThiefCommand(this);
         new DontMakeSoundCommand(this);
+        new BlockMasterCommand(this);
 
         // Initialize the MySQL Database
         try {
