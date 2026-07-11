@@ -24,6 +24,7 @@ public enum PrefixName {
     BOMBER_MAN(17),
     DONT_MAKE_SOUND(18),
     LANDLORD(19),
+    BLOCK_MASTER(20),
     ;
 
     private final int index;

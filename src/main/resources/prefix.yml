@@ -107,8 +107,14 @@
     description: "워든 3마리 처치"
     reward: "불사의 토템 명령어(쿨타임 24시간, 1개 지급)"
 19:
-    display-name: "<#0F172A><bold>【 <gradient:#BFF0D4:#FFFFFF:#BFF0D4>건물주</gradient> 】</bold></#0F172A>"
+    display-name: "<#0F172A><bold>【<gradient:#BFF0D4:#FFFFFF:#BFF0D4>건물주</gradient>】</bold></#0F172A>"
     required-stat: "PLACE_BLOCK"
     required-stat-value: 10000
     description: "아무 블럭 10000개 설치"
     reward: "땅 문서"
+20:
+    display-name: "<#052014><bold>【<gradient:#BFF0D4:#FFFFFF:#BFF0D4>블록 마스터</gradient>】</bold></#052014>"
+    required-stat: "PLACE_BLOCK"
+    required-stat-value: 100000
+    description: "아무 블럭 100000개 설치"
+    reward: "신속 명령어(쿨타임 없음, 지속시간 무한)"
