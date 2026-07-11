@@ -33,8 +33,8 @@ public class DontMakeSoundCommand extends BukkitCommand {
         if (!(sender instanceof Player player)) {
             return false;
         }
-        if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), PrefixName.HAMMER_ON)) {
-            Prefix prefix = MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(PrefixName.HAMMER_ON);
+        if (!MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), PrefixName.DONT_MAKE_SOUND)) {
+            Prefix prefix = MCPrefixAchievement.getInstance().getPrefixConfigManager().getPrefixById(PrefixName.DONT_MAKE_SOUND);
             if (prefix == null) {
                 return false;
             }
