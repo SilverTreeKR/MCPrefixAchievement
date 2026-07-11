@@ -30,6 +30,9 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
     private final int GAUDI_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.I_AM_GAUDI)
             .getRequiredStatValue();
+    private final int BLOCK_MASTER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.BLOCK_MASTER)
+            .getRequiredStatValue();
     private final int MATCH_GIRL_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.MATCH_GIRL)
             .getRequiredStatValue();
@@ -56,7 +59,7 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         }
 
         // 건물주
-        if(count >= LANDLORD_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.LANDLORD)) {
+        if (count >= LANDLORD_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.LANDLORD)) {
             player.give(createLandlordReward(player));
             PrefixGranter.grantPrefix(player, PrefixName.LANDLORD);
         }
@@ -64,6 +67,11 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
             player.give(createGaudiReward());
             PrefixGranter.grantPrefix(player, PrefixName.I_AM_GAUDI);
+        }
+
+        // 블록 마스터
+        if (count >= BLOCK_MASTER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.BLOCK_MASTER)) {
+            PrefixGranter.grantPrefix(player, PrefixName.BLOCK_MASTER);
         }
     }
 
