@@ -44,19 +44,19 @@
     display-name: "<#3E2723><bold>【<gradient:#FFE082:#FFF9C4:#FFE082>건축가</gradient>】</bold></#3E2723>"
     required-stat: "PLACE_BLOCK"
     required-stat-value: 5000
-    description: "블럭 5000개 설치"
+    description: "아무 블럭 5000개 설치"
     reward: "비계 64개"
 9:
     display-name: "<#1A1C1E><bold>【<gradient:#D7C49E:#F4EBE1:#D7C49E>전문 노가다꾼</gradient>】</bold></#1A1C1E>"
     required-stat: "BREAK_BLOCK"
     required-stat-value: 10000
-    description: "블럭 10000개 파괴"
+    description: "아무 블럭 10000개 파괴"
     reward: "다이아몬드 삽(내구성 3)"
 10:
     display-name: "<#005A9C><bold>【<gradient:#FFD700:#FFFFE0:#FFD700>내가 바로 가우디</gradient>】</bold></#005A9C>"
     required-stat: "PLACE_BLOCK"
     required-stat-value: 50000
-    description: "블럭 50000개 설치"
+    description: "아무 블럭 50000개 설치"
     reward: "스펀지 5개"
 11:
     display-name: "<#4A004A><bold>【<gradient:#FFB6C1:#FFE4E1:#FFB6C1>용의 콧물 도둑</gradient>】</bold></#4A004A>"
