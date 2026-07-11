@@ -6,6 +6,8 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.event.HoverEvent;
+import net.kyori.adventure.text.format.NamedTextColor;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
@@ -35,9 +37,19 @@ public class PrefixGranter {
         if (prefixName == PrefixName.NONE) {
             return;
         }
+        Component hoverText = Component.text("")
+                .append(prefix.getDisplayPrefix())
+                .appendNewline()
+                .append(Component.text("달성 조건: "))
+                .append(prefix.getDescription())
+                .appendNewline()
+                .append(Component.text("달성 보상: "))
+                .append(prefix.getReward());
+
+        Component prefixWithHover = prefix.getDisplayPrefix().hoverEvent(HoverEvent.showText(hoverText));
 
         prefixManager.addPrefix(uuid, prefixName);
-        player.sendRichMessage("<bold>【 칭호 】 <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
+        player.sendRichMessage("<bold>【 칭호 】 <reset>축하합니다 ! <prefix><reset>을 획득하셨습니다 !", Placeholder.component("prefix", prefixWithHover));
         player.playSound(player.getLocation(), Sound.UI_TOAST_CHALLENGE_COMPLETE, 1.0f, 1.0f);
     }
 
@@ -54,11 +66,22 @@ public class PrefixGranter {
             return;
         }
 
+        Component hoverText = Component.text("")
+                .append(prefix.getDisplayPrefix())
+                .appendNewline()
+                .append(Component.text("달성 조건: "))
+                .append(prefix.getDescription())
+                .appendNewline()
+                .append(Component.text("달성 보상: "))
+                .append(prefix.getReward());
+
+        Component prefixWithHover = prefix.getDisplayPrefix().hoverEvent(HoverEvent.showText(hoverText));
+
         Component playerName = Component.text(player.getName());
         Component message = MiniMessage.miniMessage().deserialize(
                 "<bold>【 칭호 】 <reset><green><player><reset>님께서 <prefix><reset>을 획득하셨습니다 !"
                 ,Placeholder.component("player", playerName)
-                ,Placeholder.component("prefix", prefix.getDisplayPrefix())
+                ,Placeholder.component("prefix", prefixWithHover)
         );
         Bukkit.broadcast(message);
     }
