@@ -74,7 +74,7 @@
     display-name: "<#664400><bold>【<gradient:#FFFFBB:#FFFFFF:#FFFFBB>전기세 담당</gradient>】</bold></#664400>"
     required-stat: "NONE"
     required-stat-value: 0
-    description: "나무에게 커피 후원하기"
+    description: "나무에게 커피 후원"
     reward: "장식 블럭이 담긴 개별 쿠폰 코드"
 14:
     display-name: "루왁 커피"
