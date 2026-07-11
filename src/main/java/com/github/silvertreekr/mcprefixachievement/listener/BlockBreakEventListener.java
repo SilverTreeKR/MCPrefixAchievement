@@ -30,6 +30,9 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     private final int HUMAN_DIGDA_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.HUMAN_DIGDA)
             .getRequiredStatValue();
+    private final int SHOVEL_DEVIL_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.SHOVEL_DEVIL)
+            .getRequiredStatValue();
     private final int JEWELLERY_COLLECTOR_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.JEWELLERY_COLLECTOR)
             .getRequiredStatValue();
@@ -61,6 +64,11 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
         // 인간 디그다
         if (count >= HUMAN_DIGDA_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.HUMAN_DIGDA)) {
             PrefixGranter.grantPrefix(player, PrefixName.HUMAN_DIGDA);
+        }
+
+        // 삽질의 악마
+        if (count >= SHOVEL_DEVIL_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.SHOVEL_DEVIL)) {
+            PrefixGranter.grantPrefix(player, PrefixName.SHOVEL_DEVIL);
         }
     }
 
