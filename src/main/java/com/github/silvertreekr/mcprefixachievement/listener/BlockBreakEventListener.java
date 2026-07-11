@@ -27,6 +27,9 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     private final int WORKER_LEADER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.WORKER_LEADER)
             .getRequiredStatValue();
+    private final int HUMAN_DIGDA_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.HUMAN_DIGDA)
+            .getRequiredStatValue();
     private final int JEWELLERY_COLLECTOR_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.JEWELLERY_COLLECTOR)
             .getRequiredStatValue();
@@ -53,6 +56,11 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
         if (count >= WORKER_LEADER_REQUIRED_VALUE &&  !prefixManager.hasPrefix(uuid, PrefixName.WORKER_LEADER)) {
             player.give(createWorkerLeaderReward());
             PrefixGranter.grantPrefix(player, PrefixName.WORKER_LEADER);
+        }
+
+        // 인간 디그다
+        if (count >= HUMAN_DIGDA_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.HUMAN_DIGDA)) {
+            PrefixGranter.grantPrefix(player, PrefixName.HUMAN_DIGDA);
         }
     }
 
