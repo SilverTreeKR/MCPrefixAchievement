@@ -2,6 +2,7 @@ package com.github.silvertreekr.mcprefixachievement;
 
 import com.github.silvertreekr.mcprefixachievement.command.HammerOnCommnad;
 import com.github.silvertreekr.mcprefixachievement.command.PrefixCommand;
+import com.github.silvertreekr.mcprefixachievement.command.TheThiefCommand;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigLoader;
 import com.github.silvertreekr.mcprefixachievement.config.PrefixConfigManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
@@ -68,6 +69,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
         // Initialize command
         new PrefixCommand(this);
         new HammerOnCommnad(this);
+        new TheThiefCommand(this);
 
         // Initialize the MySQL Database
         try {
