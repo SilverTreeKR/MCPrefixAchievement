@@ -76,7 +76,7 @@ public class DontMakeSoundCommand extends BukkitCommand {
         }
         lastExecutions.put(player.getUniqueId(), nowTime);
 
-        player.give(new ItemStack(Material.TOTEM_OF_UNDYING, 1));
+        player.give(createReward());
         player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>불사의 토템<reset>이 지급되었습니다 !");
 
         return true;
