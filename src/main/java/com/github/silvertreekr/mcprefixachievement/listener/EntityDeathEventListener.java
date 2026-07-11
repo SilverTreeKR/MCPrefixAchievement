@@ -31,7 +31,7 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
 
     @EventHandler
     public void onEnderDragonDeath(EntityDeathEvent event) {
-        if (!isEnderDragonKilledByPlayer(EntityType.ENDER_DRAGON, event.getEntity().getKiller())) {
+        if (!isEnderDragonKilledByPlayer(event.getEntityType(), event.getEntity().getKiller())) {
             return;
         }
 
