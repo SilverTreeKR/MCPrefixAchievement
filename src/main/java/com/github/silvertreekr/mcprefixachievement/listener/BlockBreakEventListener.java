@@ -5,6 +5,8 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
@@ -65,6 +67,12 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     private ItemStack createProWorkerReward() {
         ItemStack diamondShovel = new ItemStack(Material.DIAMOND_SHOVEL);
         ItemMeta itemMeta = diamondShovel.getItemMeta();
+        itemMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <white>다이아몬드 삽"
+        ).decoration(TextDecoration.ITALIC, false));
+        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>장인은 도구를 가리지 않지만, 장인도 좋은 도구를 가지는건 좋아합니다."
+        ).decoration(TextDecoration.ITALIC, false)));
         itemMeta.addEnchant(Enchantment.UNBREAKING, 3, false);
         diamondShovel.setItemMeta(itemMeta);
         diamondShovel.setAmount(1);

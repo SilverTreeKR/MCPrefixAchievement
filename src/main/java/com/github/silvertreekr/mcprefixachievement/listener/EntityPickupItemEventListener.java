@@ -79,9 +79,11 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 20, 0), true);
-        potionMeta.customName(Component.text("잘못 내린 커피").decoration(TextDecoration.ITALIC, false));
+        potionMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <gradient:#D2B48C:#F5F5DC:#D2B48C>잘못 내린 커피</gradient>"
+        ).decoration(TextDecoration.ITALIC, false));
         potionMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<white>어떤 놈이 내렸는지는 몰라도 매우 쓰다."
+                "<yellow>어떤 놈이 내렸는지는 몰라도 매우 쓰다."
         ).decoration(TextDecoration.ITALIC, false)));
         potion.setItemMeta(potionMeta);
         potion.setAmount(1);

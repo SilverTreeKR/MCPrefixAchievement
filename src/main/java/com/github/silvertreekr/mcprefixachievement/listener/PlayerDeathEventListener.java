@@ -6,6 +6,8 @@ import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.damage.DamageType;
@@ -87,7 +89,12 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
 
         potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*60*3, 0), true);
-        potionMeta.customName(Component.text("화염 저항의 물약").decoration(TextDecoration.ITALIC, false));
+        potionMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>화염 저항의 물약"
+        ).decoration(TextDecoration.ITALIC, false));
+        potionMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>오렌지 맛이 날거 같지만, 사실 딸기 맛이 납니다 !"
+        ).decoration(TextDecoration.ITALIC, false)));
         potion.setItemMeta(potionMeta);
         potion.setAmount(1);
         return potion;
@@ -98,6 +105,13 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         if (headMeta != null) {
             headMeta.setOwningPlayer(player);
         }
+        headMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset><player>의 머리"
+                , Placeholder.parsed("player", player.getName())
+        ).decoration(TextDecoration.ITALIC, false));
+        headMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>본인 머리를 헌팅 트로피로 두기엔 너무 마니악하지 않나?"
+        ).decoration(TextDecoration.ITALIC, false)));
         playerHead.setItemMeta(headMeta);
         playerHead.setAmount(1);
         return playerHead;

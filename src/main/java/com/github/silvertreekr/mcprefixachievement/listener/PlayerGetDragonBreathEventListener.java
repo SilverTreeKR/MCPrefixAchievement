@@ -6,6 +6,7 @@ import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -16,6 +17,7 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.List;
 import java.util.UUID;
 
 public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
@@ -81,7 +83,12 @@ public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
     private ItemStack createDragonBreathReward() {
         ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
         ItemMeta itemMeta = dragonBreath.getItemMeta();
-        itemMeta.customName(Component.text("용의 콧물").decoration(TextDecoration.ITALIC, false));
+        itemMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <yellow>용의 콧물"
+        ).decoration(TextDecoration.ITALIC, false));
+        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>도대체 이런걸 어떻게 포션의 재료로 쓴단 말입니까?"
+        ).decoration(TextDecoration.ITALIC, false)));
         dragonBreath.setItemMeta(itemMeta);
         dragonBreath.setAmount(1);
         return dragonBreath;
