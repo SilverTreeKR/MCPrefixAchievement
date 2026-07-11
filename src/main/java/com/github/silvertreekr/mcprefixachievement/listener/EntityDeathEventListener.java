@@ -102,18 +102,18 @@ public class EntityDeathEventListener extends AbstractPrefixListener {
     }
 
     private boolean isEnderDragonKilledByPlayer(EntityType entityType, Player player) {
-        return entityType == EntityType.ENDER_DRAGON || player != null;
+        return entityType == EntityType.ENDER_DRAGON && player != null;
     }
 
     private boolean isEndermanKilledByPlayer(EntityType entityType, Player player) {
-        return entityType == EntityType.ENDERMAN || player != null;
+        return entityType == EntityType.ENDERMAN && player != null;
     }
 
     private boolean isWanderingTraderKilledByPlayer(EntityType entityType, Player player) {
-        return entityType == EntityType.WANDERING_TRADER || player != null;
+        return entityType == EntityType.WANDERING_TRADER && player != null;
     }
 
     private boolean isWardenKilledByPlayer (EntityType entityType, Player player) {
-        return entityType == EntityType.WARDEN || player != null;
+        return entityType == EntityType.WARDEN && player != null;
     }
 }
