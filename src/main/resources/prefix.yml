@@ -77,31 +77,31 @@
     description: "나무에게 커피 후원"
     reward: "장식 블럭이 담긴 개별 쿠폰 코드"
 14:
-    display-name: "루왁 커피"
+    display-name: "<#3D2314><bold>【<gradient:#D2B48C:#F5F5DC:#D2B48C>루왁 커피</gradient>】</bold></#3D2314>"
     required-stat: "GET_COCOA_BEANS"
     required-stat-value: 1
     description: "첫 코코아 콩 획득"
     reward: "잘못 내린 커피"
 15:
-    display-name: "성냥팔이 소녀"
+    display-name: "<#1A1A1A><bold>【<gradient:#FF4E50:#F9D423:#FF4E50>성냥팔이 소녀</gradient>】</bold></#1A1A1A>"
     required-stat: "PLACE_REDSTONE_TORCH"
     required-stat-value: 1
     description: "레드스톤 횃불 1개 설치"
     reward: "레드스톤 가루 64개"
 16:
-    display-name: "도적"
+    display-name: "<#2E0854><bold>【<gradient:#85FFBD:#FFF77D:#85FFBD>도적</gradient>】</bold></#2E0854>"
     required-stat: "KILL_WANDERING_TRADER"
     required-stat-value: 3
     description: "떠돌이 상인 3마리 처치"
     reward: "신속 명령어(쿨타임 3시간, 지속시간 10분)"
 17:
-    display-name: "봄버맨"
+    display-name: "<#3A0007><bold>【<gradient:#FF3366:#FFE5EC:#FF3366>봄버맨</gradient>】</bold></#3A0007>"
     required-stat: "PLACE_TNT"
     required-stat-value: 1
     description: "TNT 1개 설치"
     reward: "없음"
 18:
-    display-name: "X 발설 금지 X"
+    display-name: "<#0A192F><bold>【<gradient:#80EEFF:#E6FFFF:#80EEFF>X 발설 금지 X</gradient>】</bold></#0A192F>"
     required-stat: "KILL_WARDEN"
     required-stat-value: 3
     description: "워든 3마리 처치"
