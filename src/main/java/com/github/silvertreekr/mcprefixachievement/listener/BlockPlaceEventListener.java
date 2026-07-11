@@ -67,11 +67,13 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
             player.give(createGaudiReward());
             PrefixGranter.grantPrefix(player, PrefixName.I_AM_GAUDI);
+            PrefixGranter.broadcastPrefix(player, PrefixName.I_AM_GAUDI);
         }
 
         // 블록 마스터
         if (count >= BLOCK_MASTER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.BLOCK_MASTER)) {
             PrefixGranter.grantPrefix(player, PrefixName.BLOCK_MASTER);
+            PrefixGranter.broadcastPrefix(player, PrefixName.BLOCK_MASTER);
         }
     }
 

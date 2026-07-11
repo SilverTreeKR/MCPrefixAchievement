@@ -64,10 +64,12 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
         // 인간 디그다
         if (count >= HUMAN_DIGDA_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.HUMAN_DIGDA)) {
             PrefixGranter.grantPrefix(player, PrefixName.HUMAN_DIGDA);
+            PrefixGranter.broadcastPrefix(player, PrefixName.HUMAN_DIGDA);
         }
 
         // 삽질의 악마
         if (count >= SHOVEL_DEVIL_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.SHOVEL_DEVIL)) {
+            PrefixGranter.grantPrefix(player, PrefixName.SHOVEL_DEVIL);
             PrefixGranter.grantPrefix(player, PrefixName.SHOVEL_DEVIL);
         }
     }
