@@ -66,8 +66,7 @@ public class DontMakeSoundCommand extends BukkitCommand {
                     cooltimeText = remainMinutes + "분";
                 }
 
-
-                player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", cooltimeText));
+                player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>", Placeholder.unparsed("cooltime", cooltimeText));
                 return true;
             }
         }
