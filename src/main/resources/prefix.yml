@@ -124,3 +124,9 @@
     required-stat-value: 20000
     description: "아무 블럭 20000개 파괴"
     reward: "녹슨 안전모"
+22:
+    display-name: "<#2B1810><bold>【<gradient:#D2B48C:#F5F5DC:#D2B48C>인간 디그다</gradient>】</bold></#2B1810>"
+    required-stat: "BREAK_BLOCK"
+    required-stat-value: 50000
+    description: "아무 블럭 50000개 파괴"
+    reward: "야간투시 명령어(쿨타임 12시간, 지속지간 2시간)"

@@ -26,6 +26,7 @@ public enum PrefixName {
     LANDLORD(19),
     BLOCK_MASTER(20),
     WORKER_LEADER(21),
+    HUMAN_DIGDA(22),
     ;
 
     private final int index;
