@@ -27,6 +27,7 @@ public enum PrefixName {
     BLOCK_MASTER(20),
     WORKER_LEADER(21),
     HUMAN_DIGDA(22),
+    SHOVEL_DEVIL(23),
     ;
 
     private final int index;
