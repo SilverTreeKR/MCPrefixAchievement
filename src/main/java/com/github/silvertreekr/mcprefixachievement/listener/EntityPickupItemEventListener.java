@@ -4,7 +4,6 @@ import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
-import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
