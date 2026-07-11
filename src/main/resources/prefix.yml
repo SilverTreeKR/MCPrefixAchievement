@@ -111,4 +111,4 @@
     required-stat: "PLACE_BLOCK"
     required-stat-value: 10000
     description: "아무 블럭 10000개 설치"
-    reward: "땅문서 종이"
+    reward: "땅 문서"
