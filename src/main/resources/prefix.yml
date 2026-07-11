@@ -97,7 +97,7 @@
 17:
     display-name: "봄버맨"
     required-stat: "PLACE_TNT"
-    required-stat-value: "1"
+    required-stat-value: 1
     description: "TNT 1개 설치"
     reward: "없음"
 18:
