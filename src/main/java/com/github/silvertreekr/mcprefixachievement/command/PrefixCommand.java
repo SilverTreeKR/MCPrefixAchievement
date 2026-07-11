@@ -55,7 +55,8 @@ public class PrefixCommand extends BukkitCommand {
                     int index = 1;
                     for (Map.Entry<Integer, Prefix> entry : prefixMap.entrySet()) {
                         if (index > 10) break;
-                        sender.sendRichMessage("<bold>【 칭호 】 <reset>%d. <prefix>".formatted(entry.getKey()), Placeholder.component("prefix", entry.getValue().getDisplayPrefix()));
+                        PrefixName prefixName = PrefixName.getPrefixByIndex(entry.getKey());
+                        sendPrefixListLine(sender, entry.getKey(), entry.getValue(), prefixName);
                         index++;
                     }
                     return true;
@@ -76,7 +77,8 @@ public class PrefixCommand extends BukkitCommand {
                         int shown = 0;
                         for (Map.Entry<Integer, Prefix> entry : prefixMap.entrySet()) {
                             if (shown >= skip) {
-                                sender.sendRichMessage("<bold>【 칭호 】 <reset>%d. <prefix>".formatted(entry.getKey()), Placeholder.component("prefix", entry.getValue().getDisplayPrefix()));
+                                PrefixName prefixName = PrefixName.getPrefixByIndex(entry.getKey());
+                                sendPrefixListLine(sender, entry.getKey(), entry.getValue(), prefixName);
                             }
                             shown++;
                             if (shown >= skip + pageSize) break;
@@ -151,5 +153,34 @@ public class PrefixCommand extends BukkitCommand {
             }
         }
         return false;
+    }
+
+    private void sendPrefixListLine(CommandSender sender, int id, Prefix prefix, PrefixName prefixName) {
+        Component hoverText = Component.text("")
+                .append(prefix.getDisplayPrefix())
+                .appendNewline()
+                .append(Component.text("달성 조건: "))
+                .append(prefix.getDescription())
+                .appendNewline()
+                .append(Component.text("달성 보상: "))
+                .append(prefix.getReward());
+
+        if (sender instanceof Player player) {
+            boolean hasPrefix = MCPrefixAchievement.getInstance().getUserPrefixManager().hasPrefix(player.getUniqueId(), prefixName);
+            hoverText = hoverText.appendNewline().appendNewline();
+            if (hasPrefix) {
+                hoverText = hoverText.append(MiniMessage.miniMessage().deserialize("현재 이 칭호를 <bold><green>보유<reset>하고 있습니다."));
+            } else {
+                hoverText = hoverText.append(MiniMessage.miniMessage().deserialize("현재 이 칭호를 <bold><red>미보유<reset>하고 있습니다."));
+            }
+        }
+
+        Component line = Component.text("【 칭호 】 ")
+                .decorate(TextDecoration.BOLD)
+                .append(Component.text(id + ". ").decoration(TextDecoration.BOLD, false))
+                .append(prefix.getDisplayPrefix())
+                .hoverEvent(HoverEvent.showText(hoverText));
+
+        sender.sendMessage(line);
     }
 }
