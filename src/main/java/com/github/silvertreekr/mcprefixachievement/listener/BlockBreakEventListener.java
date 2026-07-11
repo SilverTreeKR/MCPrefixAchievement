@@ -24,6 +24,9 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
     private final int PRO_WORKER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.PRO_WORKER)
             .getRequiredStatValue();
+    private final int WORKER_LEADER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.WORKER_LEADER)
+            .getRequiredStatValue();
     private final int JEWELLERY_COLLECTOR_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.JEWELLERY_COLLECTOR)
             .getRequiredStatValue();
@@ -42,8 +45,14 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
 
         // 전문 노가다꾼
         if (count >= PRO_WORKER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.PRO_WORKER)) {
-            player.give(List.of(createProWorkerReward()));
+            player.give(createProWorkerReward());
             PrefixGranter.grantPrefix(player, PrefixName.PRO_WORKER);
+        }
+
+        // 노가다 반장
+        if (count >= WORKER_LEADER_REQUIRED_VALUE &&  !prefixManager.hasPrefix(uuid, PrefixName.WORKER_LEADER)) {
+            player.give(createWorkerLeaderReward());
+            PrefixGranter.grantPrefix(player, PrefixName.WORKER_LEADER);
         }
     }
 
@@ -77,6 +86,22 @@ public class BlockBreakEventListener extends AbstractPrefixListener { ;
         diamondShovel.setItemMeta(itemMeta);
         diamondShovel.setAmount(1);
         return diamondShovel;
+    }
+
+    private ItemStack createWorkerLeaderReward() {
+        ItemStack item = new ItemStack(Material.GOLDEN_HELMET);
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <yellow>녹슨 안전모"
+        ).decoration(TextDecoration.ITALIC, false));
+        itemMeta.addEnchant(Enchantment.MENDING, 1, false);
+        itemMeta.addEnchant(Enchantment.UNBREAKING, 3, false);
+        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>전임자로부터 오랫동안 물려받은 안전모입니다."
+        ).decoration(TextDecoration.ITALIC, false)));
+        item.setItemMeta(itemMeta);
+        item.setAmount(1);
+        return item;
     }
 
     private boolean isDiamondOre(Material material) {
