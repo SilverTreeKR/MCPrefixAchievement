@@ -5,8 +5,10 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
+import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.format.TextDecoration;
 import net.kyori.adventure.text.minimessage.MiniMessage;
+import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,12 +16,16 @@ import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 public class BlockPlaceEventListener extends AbstractPrefixListener {
     private final int BUILDER_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.BUILDER)
+            .getRequiredStatValue();
+    private final int LANDLORD_REQUIRED_VALUE = plugin.getPrefixConfigManager()
+            .getPrefixById(PrefixName.LANDLORD)
             .getRequiredStatValue();
     private final int GAUDI_REQUIRED_VALUE = plugin.getPrefixConfigManager()
             .getPrefixById(PrefixName.I_AM_GAUDI)
@@ -49,6 +55,11 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
             PrefixGranter.grantPrefix(player, PrefixName.BUILDER);
         }
 
+        // 건물주
+        if(count >= LANDLORD_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.LANDLORD)) {
+            player.give(createLandlordReward(player));
+            PrefixGranter.grantPrefix(player, PrefixName.LANDLORD);
+        }
         // 내가 바로 가우디
         if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
             player.give(createGaudiReward());
@@ -104,12 +115,32 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
         ItemMeta itemMeta = item.getItemMeta();
         itemMeta.customName(MiniMessage.miniMessage().deserialize(
                 "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>비계"
-        ));
+        ).decoration(TextDecoration.ITALIC, false));
         itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
                 "<yellow>사다리의 비교적 최선 버전 형태입니다."
         ).decoration(TextDecoration.ITALIC, false)));
         item.setItemMeta(itemMeta);
         item.setAmount(64);
+        return List.of(item);
+    }
+
+    private List<ItemStack> createLandlordReward(Player player) {
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta itemMeta = item.getItemMeta();
+        List<Component> itemLore = new ArrayList<>();
+        itemMeta.customName(MiniMessage.miniMessage().deserialize(
+                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset><yellow>땅 문서"
+        ).decoration(TextDecoration.ITALIC, false));
+        itemLore.add(MiniMessage.miniMessage().deserialize(
+                "<yellow>주인: <player>",
+                Placeholder.component("player", Component.text(player.getName()))
+        ).decoration(TextDecoration.ITALIC, false));
+        itemLore.add(MiniMessage.miniMessage().deserialize(
+                "<yellow>아쉽지만 이 문서의 효력은 없습니다 !"
+        ).decoration(TextDecoration.ITALIC,false));
+        itemMeta.lore(itemLore);
+        item.setItemMeta(itemMeta);
+        item.setAmount(1);
         return List.of(item);
     }
 
