@@ -3,12 +3,15 @@ package com.github.silvertreekr.mcprefixachievement.command;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
+import net.kyori.adventure.text.format.TextDecoration;
+import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
 import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -17,6 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class DontMakeSoundCommand extends BukkitCommand {
@@ -76,5 +80,21 @@ public class DontMakeSoundCommand extends BukkitCommand {
         player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>불사의 토템<reset>이 지급되었습니다 !");
 
         return true;
+    }
+
+    private List<ItemStack> createReward() {
+        ItemStack itemStack = new ItemStack(Material.TOTEM_OF_UNDYING);
+        ItemMeta itemMeta = itemStack.getItemMeta();
+
+        itemMeta.customName(MiniMessage.miniMessage().deserialize(
+                "【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <yellow>불사의 토템"
+        ).decoration(TextDecoration.ITALIC, false));
+        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
+                "<yellow>???: 영웅은 죽지 않아요 !"
+        ).decoration(TextDecoration.ITALIC, false)));
+        itemStack.setItemMeta(itemMeta);
+        itemStack.setAmount(1);
+
+        return List.of(itemStack);
     }
 }
