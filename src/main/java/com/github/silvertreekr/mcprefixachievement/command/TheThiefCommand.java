@@ -24,7 +24,7 @@ public class TheThiefCommand extends BukkitCommand {
     }
 
     private final HashMap<UUID, LocalDateTime> lastExecutions = new HashMap<>();
-    private final int COOLTIME = 180;
+    private final int COOLTIME = 60 * 3;
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String commandLabel, @NotNull String @NotNull [] args) {
@@ -54,8 +54,18 @@ public class TheThiefCommand extends BukkitCommand {
 
             if (minutesPassed < COOLTIME) {
                 long minutesLeft = COOLTIME - minutesPassed;
+                long hoursLeft = minutesLeft / 60;
+                long remainMinutes = minutesLeft % 60;
 
-                player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", String.valueOf(minutesLeft)));
+                String cooltimeText;
+                if (hoursLeft > 0) {
+                    cooltimeText = hoursLeft + "시간" + remainMinutes + "분";
+                } else {
+                    cooltimeText = remainMinutes + "분";
+                }
+
+
+                player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>분", Placeholder.unparsed("cooltime", cooltimeText));
                 return true;
             }
         }
