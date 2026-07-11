@@ -129,10 +129,10 @@
     required-stat: "BREAK_BLOCK"
     required-stat-value: 50000
     description: "아무 블럭 50000개 파괴"
-    reward: "야간투시 명령어(쿨타임 12시간, 지속지간 2시간)"
+    reward: "야간투시 명령어(쿨타임 12시간, 지속시간 2시간)"
 23:
     display-name: "<#3A0007><bold>【<gradient:#FF3366:#FFE5EC:#FF3366>삽질의 악마</gradient>】</bold></#3A0007>"
     required-stat: "BREAK_BLOCK"
     required-stat-value: 100000
     description: "아무 블럭 100000개 파괴"
-    reward: "성급함 명령어(쿨타임 없음, 지속지간 무한)"
+    reward: "성급함 명령어(쿨타임 없음, 지속시간 무한)"
