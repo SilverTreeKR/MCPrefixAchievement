@@ -118,3 +118,9 @@
     required-stat-value: 100000
     description: "아무 블럭 100000개 설치"
     reward: "신속 명령어(쿨타임 없음, 지속시간 무한)"
+21:
+    display-name: "<#2B1810><bold>【<gradient:#E6D5C3:#F5EBE6:#E6D5C3>노가다 반장</gradient>】</bold></#2B1810>"
+    required-stat: "BREAK_BLOCK"
+    required-stat-value: 20000
+    description: "아무 블럭 20000개 파괴"
+    reward: "녹슨 안전모"
