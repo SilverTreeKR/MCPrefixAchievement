@@ -71,6 +71,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
         new DontMakeSoundCommand(this);
         new BlockMasterCommand(this);
         new HumanDigdaCommand(this);
+        new ShovelDevilCommand(this);
 
         // Initialize the MySQL Database
         try {
