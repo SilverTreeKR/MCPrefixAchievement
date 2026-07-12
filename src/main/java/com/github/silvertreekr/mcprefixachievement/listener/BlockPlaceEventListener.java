@@ -127,7 +127,7 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
                 "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>비계"
         ).decoration(TextDecoration.ITALIC, false));
         itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>사다리의 비교적 최선 버전 형태입니다."
+                "<yellow>사다리의 비교적 최신 버전 형태입니다."
         ).decoration(TextDecoration.ITALIC, false)));
         item.setItemMeta(itemMeta);
         item.setAmount(64);
