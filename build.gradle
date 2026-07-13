@@ -13,11 +13,16 @@ repositories {
         name = "papermc-repo"
         url = "https://repo.papermc.io/repository/maven-public/"
     }
+    maven {
+        url = 'https://jitpack.io'
+    }
 }
 
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.21.11-R0.1-SNAPSHOT")
     implementation("com.mysql:mysql-connector-j:9.7.0")
+    compileOnly("com.github.SilverTreeKR:CustomItems:1.1.0")
+    // compileOnly files("libs/CustomItems-1.0.0.jar")
 }
 
 tasks {
