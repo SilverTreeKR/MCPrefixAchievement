@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
@@ -63,7 +64,7 @@ public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
 
             // 용의 콧물 도둑
             if (count == DRAGON_RUNNY_NOSE_THIEF_REQUIRED_VALUE) {
-                player.give(createDragonBreathReward());
+                player.give(Reward.DRAGON_RUNNY_NOSE_THIEF_REWARD.create(1));
                 PrefixGranter.grantPrefix(player, PrefixName.DRAGON_RUNNY_NOSE_THIEF);
             }
         });
@@ -79,17 +80,4 @@ public class PlayerGetDragonBreathEventListener extends AbstractPrefixListener {
         return total;
     }
 
-    private ItemStack createDragonBreathReward() {
-        ItemStack dragonBreath = new ItemStack(Material.DRAGON_BREATH);
-        ItemMeta itemMeta = dragonBreath.getItemMeta();
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <yellow>용의 콧물"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>도대체 이런걸 어떻게 포션의 재료로 쓴단 말입니까?"
-        ).decoration(TextDecoration.ITALIC, false)));
-        dragonBreath.setItemMeta(itemMeta);
-        dragonBreath.setAmount(1);
-        return dragonBreath;
-    }
 }

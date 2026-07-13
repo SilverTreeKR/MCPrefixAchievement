@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
@@ -62,7 +63,7 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
 
         // 라바 치킨
         if (count == LAVA_CHICKEN_REQUIRED_VALUE) {
-            giveIfOnlineNextTick(player, createFireResistancePotion());
+            giveIfOnlineNextTick(player, Reward.LAVA_CHICKEN_REWARD.create(1));
             PrefixGranter.grantPrefix(player, PrefixName.LAVA_CHICKEN);
         }
     }
@@ -78,43 +79,11 @@ public class PlayerDeathEventListener extends AbstractPrefixListener {
         int count = increaseStatValue(uuid, PrefixStat.VOID_DEATH_COUNT);
 
         if (count == WANT_TO_BE_KAISA_REQUIRED_VALUE) {
-            giveIfOnlineNextTick(player, createPlayerHead(player));
+            giveIfOnlineNextTick(player, Reward.WANT_TO_BE_KAISA_REWARD.create(1, player));
             PrefixGranter.grantPrefix(player, PrefixName.WANT_TO_BE_KAISA);
         }
     }
 
-    private ItemStack createFireResistancePotion() {
-        ItemStack potion = new ItemStack(Material.POTION);
-        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
-
-        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.FIRE_RESISTANCE, 20*60*3, 0), true);
-        potionMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>화염 저항의 물약"
-        ).decoration(TextDecoration.ITALIC, false));
-        potionMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>오렌지 맛이 날거 같지만, 사실 딸기 맛이 납니다 !"
-        ).decoration(TextDecoration.ITALIC, false)));
-        potion.setItemMeta(potionMeta);
-        potion.setAmount(1);
-        return potion;
-    }
-    private ItemStack createPlayerHead(Player player) {
-        ItemStack playerHead = new ItemStack(Material.PLAYER_HEAD);
-        SkullMeta headMeta = (SkullMeta) playerHead.getItemMeta();
-        if (headMeta != null) {
-            headMeta.setOwningPlayer(player);
-        }
-        headMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset><player>의 머리"
-                , Placeholder.parsed("player", player.getName())
-        ).decoration(TextDecoration.ITALIC, false));
-        headMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>본인 머리를 헌팅 트로피로 두기엔 너무 마니악하지 않나?"
-        ).decoration(TextDecoration.ITALIC, false)));
-        playerHead.setItemMeta(headMeta);
-        playerHead.setAmount(1);
-        return playerHead;
-    }
     private void giveIfOnlineNextTick(Player player, ItemStack itemStack) {
         Bukkit.getScheduler().runTask(plugin, () -> {
             if (player.isOnline()) {

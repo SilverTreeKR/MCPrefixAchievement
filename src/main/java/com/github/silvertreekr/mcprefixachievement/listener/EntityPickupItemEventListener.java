@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
@@ -60,7 +61,7 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
 
         // 루왁커피
         if (count == KOPI_LUWAK_REQUIRED_VALUE) {
-            player.give(createBadlyPouredCoffee());
+            player.give(Reward.KOPI_LUWAK_REWARD.create(1));
             PrefixGranter.grantPrefix(player, PrefixName.KOPI_LUWAK);
         }
     }
@@ -73,19 +74,4 @@ public class EntityPickupItemEventListener extends AbstractPrefixListener {
         return material == Material.COCOA_BEANS;
     }
 
-    private ItemStack createBadlyPouredCoffee() {
-        ItemStack potion = new ItemStack(Material.POTION);
-        PotionMeta potionMeta = (PotionMeta) potion.getItemMeta();
-
-        potionMeta.addCustomEffect(new PotionEffect(PotionEffectType.INSTANT_DAMAGE, 20, 0), true);
-        potionMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <gradient:#D2B48C:#F5F5DC:#D2B48C>잘못 내린 커피</gradient>"
-        ).decoration(TextDecoration.ITALIC, false));
-        potionMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>어떤 놈이 내렸는지는 몰라도 매우 쓰다."
-        ).decoration(TextDecoration.ITALIC, false)));
-        potion.setItemMeta(potionMeta);
-        potion.setAmount(1);
-        return potion;
-    }
 }

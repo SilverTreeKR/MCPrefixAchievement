@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
@@ -51,41 +52,12 @@ public class PlayerJoinEventListener extends AbstractPrefixListener {
 
                 // 첫걸음
                 if (count == FIRST_STEP_REQUIRED_VALUE) {
-                    player.give(createFirstStepReward());
+                    player.give(Reward.FIRST_STEP_BREAD_REWARD.create(16));
+                    player.give(Reward.FIRST_STEP_TORCH_REWARD.create(32));
                     PrefixGranter.grantPrefix(player, PrefixName.FIRST_STEP);
                 }
             });
         });
     }
 
-    private List<ItemStack> createFirstStepReward() {
-        ItemStack bread = new ItemStack(Material.BREAD);
-        ItemMeta breadMeta = bread.getItemMeta();
-
-        breadMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>빵"
-        ).decoration(TextDecoration.ITALIC, false));
-        breadMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>조금 딱딱하지만 포근함이 느껴지는 빵이다."
-        ).decoration(TextDecoration.ITALIC, false)));
-        bread.setItemMeta(breadMeta);
-        bread.setAmount(16);
-
-        ItemStack torch = new ItemStack(Material.TORCH);
-        ItemMeta torchMeta = torch.getItemMeta();
-
-        torchMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>횃불"
-        ).decoration(TextDecoration.ITALIC, false));
-        torchMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>동굴을 탐험할 때 유용할 것 같다."
-        ).decoration(TextDecoration.ITALIC, false)));
-        torch.setItemMeta(torchMeta);
-        torch.setAmount(32);
-
-        return List.of(
-                bread,
-                torch
-        );
-    }
 }

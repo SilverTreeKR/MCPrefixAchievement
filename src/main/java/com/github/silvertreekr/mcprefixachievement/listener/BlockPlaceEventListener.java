@@ -1,5 +1,6 @@
 package com.github.silvertreekr.mcprefixachievement.listener;
 
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
@@ -54,18 +55,18 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
 
         // 건축가
         if (count >= BUILDER_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.BUILDER)) {
-            player.give(createBuilderReward());
+            player.give(Reward.BUILDER_REWARD.create(64));
             PrefixGranter.grantPrefix(player, PrefixName.BUILDER);
         }
 
         // 건물주
         if (count >= LANDLORD_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.LANDLORD)) {
-            player.give(createLandlordReward(player));
+            player.give(Reward.LANDLORD_REWARD.create(1, player));
             PrefixGranter.grantPrefix(player, PrefixName.LANDLORD);
         }
         // 내가 바로 가우디
         if (count >= GAUDI_REQUIRED_VALUE && !prefixManager.hasPrefix(uuid, PrefixName.I_AM_GAUDI)) {
-            player.give(createGaudiReward());
+            player.give(Reward.GAUDI_REWARD.create(5));
             PrefixGranter.grantPrefix(player, PrefixName.I_AM_GAUDI);
             PrefixGranter.broadcastPrefix(player, PrefixName.I_AM_GAUDI);
         }
@@ -90,8 +91,8 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
 
         // 성냥팔이 소녀
         if (count == MATCH_GIRL_REQUIRED_VALUE) {
-            player.give(createMatchGirlReward());
-            PrefixGranter.grantPrefix(player,PrefixName.MATCH_GIRL);
+            player.give(Reward.MATCH_GRIL_REWARD.create(64));
+            PrefixGranter.grantPrefix(player, PrefixName.MATCH_GIRL);
         }
     }
 
@@ -118,69 +119,5 @@ public class BlockPlaceEventListener extends AbstractPrefixListener {
 
     private boolean isTnt(Material material) {
         return material == Material.TNT;
-    }
-
-    private List<ItemStack> createBuilderReward() {
-        ItemStack item = new ItemStack(Material.SCAFFOLDING);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>비계"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>사다리의 비교적 최신 버전 형태입니다."
-        ).decoration(TextDecoration.ITALIC, false)));
-        item.setItemMeta(itemMeta);
-        item.setAmount(64);
-        return List.of(item);
-    }
-
-    private List<ItemStack> createLandlordReward(Player player) {
-        ItemStack item = new ItemStack(Material.PAPER);
-        ItemMeta itemMeta = item.getItemMeta();
-        List<Component> itemLore = new ArrayList<>();
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset><yellow>땅 문서"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemLore.add(MiniMessage.miniMessage().deserialize(
-                "<yellow>주인: <player>",
-                Placeholder.component("player", Component.text(player.getName()))
-        ).decoration(TextDecoration.ITALIC, false));
-        itemLore.add(MiniMessage.miniMessage().deserialize(
-                "<yellow>아쉽지만 이 문서의 효력은 없습니다 !"
-        ).decoration(TextDecoration.ITALIC,false));
-        itemMeta.lore(itemLore);
-        item.setItemMeta(itemMeta);
-        item.setAmount(1);
-        return List.of(item);
-    }
-
-    private List<ItemStack> createGaudiReward() {
-        ItemStack item = new ItemStack(Material.SPONGE);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>스펀지"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>흡수력이 매우 뛰어난 친구입니다 !"
-        ).decoration(TextDecoration.ITALIC, false)));
-        item.setItemMeta(itemMeta);
-        item.setAmount(5);
-
-        return List.of(item);
-    }
-
-    private List<ItemStack> createMatchGirlReward() {
-        ItemStack item = new ItemStack(Material.REDSTONE);
-        ItemMeta itemMeta = item.getItemMeta();
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "<#B8860B><bold>【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <reset>레드스톤 가루"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>절대 피가 아닙니다 !"
-        ).decoration(TextDecoration.ITALIC, false)));
-        item.setItemMeta(itemMeta);
-        item.setAmount(64);
-
-        return  List.of(item);
     }
 }

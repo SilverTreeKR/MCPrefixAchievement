@@ -1,5 +1,7 @@
 package com.github.silvertreekr.mcprefixachievement.command;
 
+
+import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
@@ -74,25 +76,10 @@ public class DontMakeSoundCommand extends BukkitCommand {
         }
         lastExecutions.put(player.getUniqueId(), nowTime);
 
-        player.give(createReward());
+        player.give(Reward.DONT_MAKE_SOUND_REWARD.create(1));
         player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>불사의 토템<reset>이 지급되었습니다 !");
 
         return true;
     }
-
-    private List<ItemStack> createReward() {
-        ItemStack itemStack = new ItemStack(Material.TOTEM_OF_UNDYING);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-
-        itemMeta.customName(MiniMessage.miniMessage().deserialize(
-                "【<gradient:#FFF9C4:#FFFFFF:#FFF9C4>보상</gradient>】</bold></#B8860B> <yellow>불사의 토템"
-        ).decoration(TextDecoration.ITALIC, false));
-        itemMeta.lore(List.of(MiniMessage.miniMessage().deserialize(
-                "<yellow>???: 영웅은 죽지 않아요 !"
-        ).decoration(TextDecoration.ITALIC, false)));
-        itemStack.setItemMeta(itemMeta);
-        itemStack.setAmount(1);
-
-        return List.of(itemStack);
-    }
 }
+
