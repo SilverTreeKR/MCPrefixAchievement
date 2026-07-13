@@ -7,17 +7,11 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserStatsManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
-import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 

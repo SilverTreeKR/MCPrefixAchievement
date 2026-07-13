@@ -5,22 +5,16 @@ import com.github.silvertreekr.customItems.models.Reward;
 import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class DontMakeSoundCommand extends BukkitCommand {

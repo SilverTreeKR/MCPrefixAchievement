@@ -6,19 +6,13 @@ import com.github.silvertreekr.mcprefixachievement.dao.UserPrefixManager;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixStat;
 import com.github.silvertreekr.mcprefixachievement.util.PrefixGranter;
-import net.kyori.adventure.text.format.TextDecoration;
-import net.kyori.adventure.text.minimessage.MiniMessage;
 import org.bukkit.Material;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.List;
 import java.util.UUID;
 
 public class BlockBreakEventListener extends AbstractPrefixListener { ;
