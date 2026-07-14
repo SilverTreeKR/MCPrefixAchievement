@@ -4,6 +4,7 @@ import com.github.silvertreekr.mcprefixachievement.MCPrefixAchievement;
 import com.github.silvertreekr.mcprefixachievement.model.Prefix;
 import com.github.silvertreekr.mcprefixachievement.model.PrefixName;
 import net.kyori.adventure.text.minimessage.tag.resolver.Placeholder;
+import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.defaults.BukkitCommand;
 import org.bukkit.entity.Player;
@@ -37,12 +38,14 @@ public class HumanDigdaCommand extends BukkitCommand {
                 return false;
             }
             sender.sendRichMessage("<bold>【 칭호 】 <reset><prefix><reset><red>를 가지고 있지 않습니다 !", Placeholder.component("prefix", prefix.getDisplayPrefix()));
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
 
             return false;
         }
         if (args.length != 0) {
             sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 명령어입니다.");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>올바른 사용법: /[칭호명]");
+            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
 
             return false;
         }
@@ -65,6 +68,8 @@ public class HumanDigdaCommand extends BukkitCommand {
                 }
 
                 player.sendRichMessage("<bold>【 칭호 】 <reset>남은 시간: <bold><red><cooltime>", Placeholder.unparsed("cooltime", cooltimeText));
+                player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+
                 return true;
             }
         }
@@ -72,6 +77,7 @@ public class HumanDigdaCommand extends BukkitCommand {
 
         player.addPotionEffect(new PotionEffect(PotionEffectType.NIGHT_VISION, 20*60*60*2, 0));
         player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>야간투시 효과<reset>가 적용되었습니다 !");
+        player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
         return true;
     }

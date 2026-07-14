@@ -34,6 +34,9 @@ public class PrefixCommand extends BukkitCommand {
         // /칭호 지급 [대상 플레이어] [칭호ID] -> 대상 플레이어에게 칭호를 지급하는 커맨드
         // /칭호 -> 칭호 명령어들 반환
         if (args.length == 0) {
+            if (sender instanceof Player player) {
+                player.playSound(player.getLocation(), Sound.UI_BUTTON_CLICK, 1.0f, 1.0f);
+            }
             sender.sendRichMessage("<bold>【 칭호 】 <reset>사용 가능한 명령어:");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>/칭호 목록 [페이지] - 칭호들의 목록을 확인합니다.");
             sender.sendRichMessage("<bold>【 칭호 】 <reset>/[칭호명] - 특정 칭호의 특수 효과를 부여받습니다.");
@@ -118,6 +121,9 @@ public class PrefixCommand extends BukkitCommand {
 
                     if (prefix == null) {
                         sender.sendRichMessage("<bold>【 칭호 】 <reset><red>올바르지 않은 칭호 ID입니다.");
+                        if (sender instanceof Player player) {
+                            player.playSound(player.getLocation(), Sound.BLOCK_ANVIL_LAND, 1.0f, 1.0f);
+                        }
                         return false;
                     }
 
