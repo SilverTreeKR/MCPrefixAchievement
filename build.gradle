@@ -74,11 +74,8 @@ assemble.dependsOn tasks.shadowJar
 
 publishing {
     publications {
-        shadow(MavenPublication) {
-            artifact tasks.shadowJar
-            groupId = 'com.github.SilverTreeKR'
-            artifactId = 'MCPrefixAchievement'
-            version = project.version
+        create<MavenPublication>("maven") {
+            from(components["java"])
         }
     }
 }
