@@ -136,3 +136,9 @@
     required-stat-value: 100000
     description: "아무 블럭 100000개 파괴"
     reward: "성급함 명령어(쿨타임 없음, 지속시간 무한)"
+24:
+    display-name: "<#004466><bold>【<gradient:#80EEFF:#FFFFFF:#80EEFF>여름이었다</gradient>】</bold></#004466>"
+    required-stat: "NONE"
+    required-stat-value: 0
+    description: "2026년 07월 복작복작 정모를 기념하기 위한 칭호"
+    reward: "소중한 우리들의 추억"

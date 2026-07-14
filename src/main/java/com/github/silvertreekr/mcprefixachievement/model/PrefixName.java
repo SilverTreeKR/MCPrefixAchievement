@@ -28,6 +28,7 @@ public enum PrefixName {
     WORKER_LEADER(21),
     HUMAN_DIGDA(22),
     SHOVEL_DEVIL(23),
+    SUMMER_POOL(24),
     ;
 
     private final int index;
