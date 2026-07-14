@@ -75,7 +75,7 @@ assemble.dependsOn tasks.shadowJar
 publishing {
     publications {
         create("maven", MavenPublication) {
-            project.shadow.component(it)
+            artifact(tasks.shadowJar)
         }
     }
 }
