@@ -210,10 +210,10 @@ public class PrefixCommand extends BukkitCommand {
             return completions;
         }
         if (args.length == 2) {
-            if (args[0].equals("목록")) {
+            if (args[0].equals("목록") || (args[0].equalsIgnoreCase("list"))) {
                 return List.of("[페이지]");
             }
-            if (args[0].equals("지급") && sender.isOp()) {
+            if ((args[0].equals("지급") || args[0].equalsIgnoreCase("give")) && sender.isOp()) {
                 return Bukkit.getOnlinePlayers().stream()
                         .map(Player::getName)
                         .filter(name -> name.toLowerCase()
@@ -222,7 +222,7 @@ public class PrefixCommand extends BukkitCommand {
             }
         }
         if (args.length == 3) {
-            if (args[0].equals("지급") && sender.isOp()) {
+            if ((args[0].equals("지급") || args[0].equalsIgnoreCase("give")) && sender.isOp()) {
                 return List.of("[칭호ID]");
             }
         }
