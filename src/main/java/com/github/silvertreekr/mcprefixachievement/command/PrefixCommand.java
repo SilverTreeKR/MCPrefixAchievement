@@ -23,6 +23,7 @@ import java.util.*;
 public class PrefixCommand extends BukkitCommand {
     public PrefixCommand(@NotNull JavaPlugin plugin) {
         super("칭호");
+        setAliases(List.of("cldgh", "prefix"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
     }
 
@@ -50,7 +51,7 @@ public class PrefixCommand extends BukkitCommand {
 
         PrefixConfigManager prefixConfigManager = MCPrefixAchievement.getInstance().getPrefixConfigManager();
         switch (args[0]) {
-            case "목록" -> {
+            case "목록", "list" -> {
                 SortedMap<Integer, Prefix> prefixMap = prefixConfigManager.getPrefixMap();
                 if (args.length == 1) {
                     int index = 1;
@@ -95,7 +96,7 @@ public class PrefixCommand extends BukkitCommand {
                     }
                 }
             }
-            case "지급" -> {
+            case "지급", "give" -> {
                 if (args.length < 3) {
                     sender.sendRichMessage("<bold>【 칭호 】 <reset>사용법: /칭호 지급 [대상 플레이어] [칭호ID]");
                     if (!(sender instanceof Player player)) {
@@ -197,8 +198,14 @@ public class PrefixCommand extends BukkitCommand {
             if ("목록".startsWith(args[0])) {
                 completions.add("목록");
             }
+            if ("list".startsWith(args[0])) {
+                completions.add("list");
+            }
             if ("지급".startsWith(args[0]) && sender.isOp()) {
                 completions.add("지급");
+            }
+            if ("give".startsWith(args[0]) && sender.isOp()) {
+                completions.add("give");
             }
             return completions;
         }
