@@ -15,12 +15,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class DontMakeSoundCommand extends BukkitCommand {
     public DontMakeSoundCommand(@NotNull JavaPlugin plugin) {
         super("발설금지");
+        setAliases(List.of("qkftjfrmawl"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
     }
 
@@ -80,6 +83,11 @@ public class DontMakeSoundCommand extends BukkitCommand {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) {
+        return Collections.emptyList();
     }
 }
 

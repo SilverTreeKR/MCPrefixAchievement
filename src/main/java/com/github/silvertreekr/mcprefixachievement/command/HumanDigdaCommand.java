@@ -15,12 +15,15 @@ import org.jetbrains.annotations.NotNull;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.UUID;
 
 public class HumanDigdaCommand extends BukkitCommand {
     public HumanDigdaCommand(@NotNull JavaPlugin plugin) {
         super("인간디그다");
+        setAliases(List.of("dlsrkselrmek"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
     }
 
@@ -80,5 +83,10 @@ public class HumanDigdaCommand extends BukkitCommand {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) {
+        return Collections.emptyList();
     }
 }

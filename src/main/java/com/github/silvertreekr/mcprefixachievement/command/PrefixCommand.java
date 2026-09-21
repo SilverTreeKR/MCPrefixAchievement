@@ -18,8 +18,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Map;
-import java.util.SortedMap;
+import java.util.*;
 
 public class PrefixCommand extends BukkitCommand {
     public PrefixCommand(@NotNull JavaPlugin plugin) {
@@ -29,7 +28,6 @@ public class PrefixCommand extends BukkitCommand {
 
     @Override
     public boolean execute(@NotNull CommandSender sender, @NotNull String label, @NotNull String @NotNull [] args) {
-        // /칭호 정보 [칭호ID] -> 특정 칭호의 달성 조건을 보는 커맨드
         // /칭호 목록 [페이지] -> 칭호들의 목록을 보는 커맨드 (15개씩 끊어서 페이지)
         // /칭호 지급 [대상 플레이어] [칭호ID] -> 대상 플레이어에게 칭호를 지급하는 커맨드
         // /칭호 -> 칭호 명령어들 반환
@@ -188,5 +186,39 @@ public class PrefixCommand extends BukkitCommand {
                 .hoverEvent(HoverEvent.showText(hoverText));
 
         sender.sendMessage(line);
+    }
+    // /칭호 정보 [칭호ID] -> 특정 칭호의 달성 조건을 보는 커맨드
+    // /칭호 목록 [페이지] -> 칭호들의 목록을 보는 커맨드 (15개씩 끊어서 페이지)
+    // /칭호 지급 [대상 플레이어] [칭호ID] -> 대상 플레이어에게 칭호를 지급하는 커맨드
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) {
+        if (args.length == 1) {
+            List<String> completions = new ArrayList<>();
+            if ("목록".startsWith(args[0])) {
+                completions.add("목록");
+            }
+            if ("지급".startsWith(args[0]) && sender.isOp()) {
+                completions.add("지급");
+            }
+            return completions;
+        }
+        if (args.length == 2) {
+            if (args[0].equals("목록")) {
+                return List.of("[페이지]");
+            }
+            if (args[0].equals("지급") && sender.isOp()) {
+                return Bukkit.getOnlinePlayers().stream()
+                        .map(Player::getName)
+                        .filter(name -> name.toLowerCase()
+                                .startsWith(args[1].toLowerCase()))
+                        .toList();
+            }
+        }
+        if (args.length == 3) {
+            if (args[0].equals("지급") && sender.isOp()) {
+                return List.of("[칭호ID]");
+            }
+        }
+        return Collections.emptyList();
     }
 }

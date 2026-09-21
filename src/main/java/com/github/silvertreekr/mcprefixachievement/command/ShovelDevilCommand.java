@@ -13,9 +13,13 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Collections;
+import java.util.List;
+
 public class ShovelDevilCommand extends BukkitCommand {
     public ShovelDevilCommand(@NotNull JavaPlugin plugin) {
         super("삽질의악마");
+        setAliases(List.of("tkqwlfdmlakrak"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
     }
 
@@ -47,5 +51,10 @@ public class ShovelDevilCommand extends BukkitCommand {
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
 
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) {
+        return Collections.emptyList();
     }
 }

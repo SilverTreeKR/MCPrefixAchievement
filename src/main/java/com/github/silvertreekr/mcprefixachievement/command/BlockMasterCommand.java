@@ -13,9 +13,14 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 public class BlockMasterCommand extends BukkitCommand {
     public BlockMasterCommand(@NotNull JavaPlugin plugin) {
         super("블록마스터");
+        setAliases(List.of("qmffhraktmxj"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
     }
 
@@ -44,5 +49,10 @@ public class BlockMasterCommand extends BukkitCommand {
         player.sendRichMessage("<bold>【 칭호 】 <reset><aqua>신속 효과<reset>가 적용되었습니다 !");
         player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 1.0f, 1.0f);
         return true;
+    }
+
+    @Override
+    public @NotNull List<String> tabComplete(@NotNull CommandSender sender, @NotNull String alias, @NotNull String @NotNull [] args) {
+        return Collections.emptyList();
     }
 }
