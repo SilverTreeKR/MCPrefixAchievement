@@ -117,3 +117,7 @@ runs/
 
 # Avoid ignoring Gradle wrapper jar file (.jar files are usually ignored)
 !gradle-wrapper.jar
+
+# AI Agent Handoff (do not commit sensitive task context)
+.agents/handoff/
+checkpoint_latest.md
