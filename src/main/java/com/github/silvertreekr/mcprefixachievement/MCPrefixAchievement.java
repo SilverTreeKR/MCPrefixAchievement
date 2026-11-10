@@ -66,7 +66,7 @@ public final class MCPrefixAchievement extends JavaPlugin {
 
         // Initialize command
         new PrefixCommand(this);
-        new HammerOnCommnad(this);
+        new HammerOnCommand(this);
         new TheThiefCommand(this);
         new DontMakeSoundCommand(this);
         new BlockMasterCommand(this);

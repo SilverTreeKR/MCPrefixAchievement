@@ -20,8 +20,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
-public class HammerOnCommnad extends BukkitCommand {
-    public HammerOnCommnad(@NotNull JavaPlugin plugin) {
+public class HammerOnCommand extends BukkitCommand {
+    public HammerOnCommand(@NotNull JavaPlugin plugin) {
         super("망치나가신다");
         setAliases(List.of("akdclskrktlsek"));
         plugin.getServer().getCommandMap().register("mcprefixachievement", this);
